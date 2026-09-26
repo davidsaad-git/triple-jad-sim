@@ -1,0 +1,24 @@
+/*
+ * scim.gg design tokens.
+ * The palette tokens come from CLIENT-UI's theme (pack-aware, set inline by
+ * applyPackTheme); this file adds the crest / modal / shadow tokens the menus
+ * and screens use.
+ */
+@import url('../../theme/fonts.css');
+@import url('../../theme/tokens.css');
+
+:root {
+  --shadow-sm: 0 2px 4px #0006;
+  --shadow-md: 0 8px 16px #00000080;
+  --shadow-lg: 0 16px 32px #0009;
+  --crest-ink: #0d0803;
+  --crest-shadow-sm: 1px 1px 0 var(--crest-ink);
+  --crest-shadow-md: 2px 2px 0 var(--crest-ink);
+  --crest-shadow-lg: 3px 3px 0 var(--crest-ink);
+  --crest-rim: 1px 0 0 var(--crest-ink), -1px 0 0 var(--crest-ink), 0 1px 0 var(--crest-ink), 0 -1px 0 var(--crest-ink);
+  --crest-floating-top: clamp(54px, 15vh, 176px);
+  --modal-backdrop: #080604b8;
+  --modal-radius: 2px;
+  --modal-card-border: var(--color-border);
+  --modal-card-shadow: var(--shadow-lg), inset 0 0 0 1px var(--color-border-translucent);
+}

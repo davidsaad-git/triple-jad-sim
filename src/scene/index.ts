@@ -57,7 +57,6 @@ export {
   type SceneBuilderOptions,
   type SceneLocType,
 } from './SceneBuilder'
-export { SceneCollision, type SceneCollisionOptions } from './SceneCollision'
 export { SceneTile, type LocModelHook, type SceneLoc } from './SceneTile'
 export { SceneTileModel, TILE_SHAPE_COUNT, type SceneTileModelParams } from './SceneTileModel'
 export {

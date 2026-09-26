@@ -1,0 +1,51 @@
+/*
+ * The client's bitmap fonts as TrueType. The RuneStar
+ * TTFs (CC0) are copied into public/fonts by scripts/build-ui-assets.ts;
+ * RuneScape-Small.ttf is built there from the cache font p11_full.
+ * All chrome text is drawn at 16px, the fonts' native pixel size at 1x.
+ */
+@font-face {
+  font-family: 'RuneScape Plain 12';
+  src: url(/fonts/RuneScape-Plain-12.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  ascent-override: 81.25%;
+  descent-override: 18.75%;
+}
+@font-face {
+  font-family: 'RuneScape Bold 12';
+  src: url(/fonts/RuneScape-Bold-12.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  ascent-override: 81.25%;
+  descent-override: 18.75%;
+}
+@font-face {
+  font-family: 'RuneScape Plain 11';
+  src: url(/fonts/RuneScape-Plain-11.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  ascent-override: 81.25%;
+  descent-override: 18.75%;
+}
+@font-face {
+  font-family: 'RuneScape Quill 8';
+  src: url(/fonts/RuneScape-Quill-8.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  ascent-override: 87.5%;
+  descent-override: 12.5%;
+}
+@font-face {
+  font-family: 'RuneScape Small';
+  src: url(/fonts/RuneScape-Small.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  ascent-override: 87.5%;
+  descent-override: 12.5%;
+}

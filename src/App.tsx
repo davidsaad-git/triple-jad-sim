@@ -1,202 +1,176 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { formatBytes, loadCacheFromUrl, type CacheLoadProgress } from './cache/browser/loadCache'
-import type { CacheSystem } from './cache/CacheSystem'
-import { Session } from './app/Session'
-import { TILE_SIZE } from './render/Camera'
-import { CameraControls } from './render/CameraControls'
-import { GpuMesh } from './render/Mesh'
-import { Renderer } from './render/Renderer'
-import { ActorMarkers } from './render/ActorMarkers'
-import { ActorRenderer } from './render/actors/ActorRenderer'
-import { ActorModelResolver } from './render/actors/ActorModelResolver'
-import { buildTextureArray } from './render/textures'
-import { pickTile, rayFromScreen } from './render/pick'
-import { pickActor } from './render/pickActor'
-import { rgba } from './render/Mesh'
-import { ClientFrame } from './ui/client/ClientFrame'
-import { ViewportOverlay } from './ui/ViewportOverlay'
-import { projectActors, publishOverlay } from './app/OverlayProjector'
-import { GameCanvas } from './ui/GameCanvas'
-import { LoadingScreen } from './ui/LoadingScreen'
-import { TopMenu } from './ui/menu/TopMenu'
-import { EncountersDialog, type EncounterConfig } from './ui/menu/EncountersDialog'
-import { SettingsDialog, type SettingsValues } from './ui/menu/SettingsDialog'
+import { useEffect, useState } from 'react'
+import type { ViewportPicker, OverlayProjection } from './render/api'
+import { GameViewport } from './render/GameViewport'
+import { ViewportInput } from './input/ViewportInput'
+import { installGlobalHotkeys } from './input/hotkeys'
+import { loadBestCache, type CacheLoadProgress } from './cache/browser/loadCache'
+import { RuntimeContext, useRuntime, useTickSnapshot } from './app/runtime/RuntimeContext'
+import { isEditableElement } from './input/modifiers'
+import { createSession, type Session } from './app/Session'
+import { installPackTheme } from './ui/theme'
+import { AppMenus, menuController, TRIPLE_JAD_ENCOUNTER } from './ui/menu'
+import { HudTools } from './ui/hud'
+import { PluginOverlays } from './ui/plugins'
+import { OutcomeScreens, TitleCard } from './ui/screens'
+import { soundName } from './audio'
+import { ClientFrame } from './ui/client'
+import { settingsStore, useSetting } from './app/settings/settings'
+import { useRenderFps } from './render/viewportBridge'
 
-const CACHE_URL = '/osrs-cache/disk.zip'
-
-type Stage = { kind: 'loading'; progress: CacheLoadProgress } | { kind: 'error'; message: string } | { kind: 'ready'; cache: CacheSystem }
-
+/**
+ * Integration shell: loads the cache, creates the
+ * session and mounts every layer in scim's DOM order.
+ */
 export default function App() {
-  const [stage, setStage] = useState<Stage>({
-    kind: 'loading',
-    progress: { phase: 'checking', fraction: -1, loadedBytes: 0, totalBytes: 0, fromCache: false },
-  })
+  const [progress, setProgress] = useState<CacheLoadProgress | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => installPackTheme(), [])
 
   useEffect(() => {
     let cancelled = false
-    loadCacheFromUrl(CACHE_URL, (progress) => {
-      if (!cancelled) setStage({ kind: 'loading', progress })
+    let created: Session | null = null
+    loadBestCache((p) => {
+      if (!cancelled) setProgress(p)
     })
       .then((cache) => {
-        if (!cancelled) setStage({ kind: 'ready', cache })
+        if (cancelled) return
+        created = createSession(cache)
+        setSession(created)
+        if (import.meta.env.DEV) (window as unknown as { __zuk: Session }).__zuk = created
       })
       .catch((e: unknown) => {
-        if (!cancelled) setStage({ kind: 'error', message: e instanceof Error ? e.message : String(e) })
+        if (!cancelled) setError(e instanceof Error ? e.message : String(e))
       })
     return () => {
       cancelled = true
+      created?.dispose()
     }
   }, [])
 
-  if (stage.kind === 'error') {
-    return <LoadingScreen title="ZUK" subtitle="OSRS Inferno Simulator" progress={0} status="Failed to load" detail={stage.message} />
-  }
-
-  if (stage.kind === 'loading') {
-    const p = stage.progress
-    const status =
-      p.phase === 'checking'
-        ? 'Checking local cache...'
-        : p.phase === 'downloading'
-          ? 'Downloading game cache'
-          : p.phase === 'unpacking'
-            ? 'Unpacking game cache'
-            : 'Ready'
-    const detail =
-      p.phase === 'downloading'
-        ? `${formatBytes(p.loadedBytes)}${p.totalBytes ? ` / ${formatBytes(p.totalBytes)}` : ''}`
-        : p.fromCache
-          ? 'From browser storage'
-          : ''
-    return (
-      <LoadingScreen
-        title="ZUK"
-        subtitle="OSRS Inferno Simulator"
-        progress={p.fraction < 0 ? 0 : p.fraction}
-        status={status}
-        detail={detail}
-      />
-    )
-  }
-
-  return <GameView cache={stage.cache} />
+  if (error) return <div className="boot-status">Failed to load the game cache: {error}</div>
+  if (!session) return <div className="boot-status">{describeProgress(progress)}</div>
+  return (
+    <RuntimeContext.Provider value={session.runtime}>
+      <Game session={session} />
+    </RuntimeContext.Provider>
+  )
 }
 
-function GameView({ cache }: { cache: CacheSystem }) {
-  const session = useMemo(() => new Session(cache), [cache])
-  const [settings, setSettings] = useState<SettingsValues>({ layout: 'fixed', playbackSpeed: 1, brightness: 1 })
-  const [dialog, setDialog] = useState<'settings' | 'encounters' | null>(null)
-  const [config, setConfig] = useState<EncounterConfig>({ wave: 1, preset: 'Max Tbow', infiniteHealth: false, infinitePrayer: false })
-  const rendererRef = useRef<Renderer | null>(null)
-
+function useWindowSize(): { width: number; height: number } {
+  const [size, setSize] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }))
   useEffect(() => {
-    session.clock.speed = settings.playbackSpeed
-    if (rendererRef.current) rendererRef.current.brightness = settings.brightness
-  }, [session, settings])
+    const onResize = () => setSize({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+  return size
+}
 
+function Game({ session }: { session: Session }) {
+  const [api, setApi] = useState<{ picker: ViewportPicker; overlay: OverlayProjection } | null>(null)
+  const { width, height } = useWindowSize()
+  const snapshot = useTickSnapshot()
+
+  useEffect(
+    () =>
+      installGlobalHotkeys({
+        onRestart: () => session.runtime.restart(),
+        onToggleEncounterPicker: () => menuController.toggle('encounters'),
+        onToggleShowFps: () => settingsStore.patch({ showFps: !settingsStore.get().showFps }),
+      }),
+    [session],
+  )
+
+  // Pause (our addition; scim has none): P or the Pause key toggles it.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.ctrlKey && (e.key === 'r' || e.key === 'R')) {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || isEditableElement(e.target)) return
+      if (e.key === 'p' || e.key === 'P' || e.key === 'Pause') {
         e.preventDefault()
-        session.restartWave()
-      } else if (e.ctrlKey && (e.key === 'k' || e.key === 'K')) {
-        e.preventDefault()
-        setDialog((d) => (d === 'encounters' ? null : 'encounters'))
-      } else if (e.key === 'Escape') {
-        setDialog(null)
+        session.runtime.togglePause()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [session])
 
-  const viewport = (
-    <GameCanvas
-      onMount={(canvas) => {
-        const renderer = new Renderer(canvas)
-        rendererRef.current = renderer
-        renderer.brightness = settings.brightness
-        const controls = new CameraControls(renderer.camera, canvas)
-        renderer.add(new GpuMesh(renderer.gl, session.arena.terrain))
-        const locsDefault = renderer.add(new GpuMesh(renderer.gl, session.arena.locs))
-        const locsZuk = renderer.add(new GpuMesh(renderer.gl, session.arena.locsZuk))
-        locsZuk.visible = false
-        renderer.textureArray = buildTextureArray(renderer.gl, session.arena.textures)
-        const markers = new ActorMarkers(renderer, session.arena.heights)
-        const actorRenderer = new ActorRenderer(renderer, new ActorModelResolver(cache, session.arena.locModels, () => session.controller.loadout), session.arena.heights)
-        const unsub = renderer.addFrameListener((dt) => {
-          controls.update(dt)
-          const zukWave = session.encounter.state.wave === 69 && session.encounter.state.phase !== 'waveStarting'
-          locsDefault.visible = !zukWave
-          locsZuk.visible = zukWave
-          const p = session.player
-          const a = session.clock.alpha
-          const ix = p.prevX + (p.x - p.prevX) * a
-          const iy = p.prevY + (p.y - p.prevY) * a
-          renderer.camera.target[0] = (ix + 0.5) * TILE_SIZE
-          renderer.camera.target[2] = (iy + 0.5) * TILE_SIZE
-          renderer.camera.target[1] = session.arena.heights.heightAt(renderer.camera.target[0], renderer.camera.target[2]) ?? 0
-          const unmodelled = actorRenderer.sync(session.world.actors, session.world.tick, a)
-          markers.sync(unmodelled, a, (x) => (x === session.player ? rgba(60, 200, 90) : rgba(200, 70, 60)))
-          const rect = canvas.getBoundingClientRect()
-          publishOverlay(
-            projectActors(renderer, session.arena.heights, session.world.actors, a, session.world.tick),
-            session.encounter.state.wave,
-            session.encounter.state.phase,
-            session.world.tick,
-            session.spawnCountdown,
-            rect.width,
-            rect.height,
-            session.bossInfo,
-            session.setTimerTicks,
-          )
-        })
-        const onClick = (e: MouseEvent) => {
-          if (e.button !== 0) return
-          const rect = canvas.getBoundingClientRect()
-          const ray = rayFromScreen(renderer.camera, e.clientX - rect.left, e.clientY - rect.top, rect.width, rect.height)
-          const actor = pickActor(ray, session.world.actors, session.arena.heights, session.clock.alpha)
-          if (actor && actor !== session.player) {
-            session.attack(actor)
-            return
-          }
-          const hit = pickTile(ray, session.arena.heights)
-          if (hit) session.walkTo(hit.x, hit.y)
-        }
-        canvas.addEventListener('click', onClick)
-        session.attach(renderer)
-        if (session.encounter.state.wave === 0) session.startWave(1)
-        return {
-          renderer,
-          dispose: () => {
-            canvas.removeEventListener('click', onClick)
-            session.detach()
-            unsub()
-            controls.dispose()
-            renderer.dispose()
-            rendererRef.current = null
-          },
-        }
-      }}
-    />
-  )
-
   return (
-    <>
-      <ClientFrame layout={settings.layout} viewport={viewport} actions={session.actions} overlays={<ViewportOverlay />} />
-      <TopMenu onOpen={setDialog} onRestart={() => session.restartWave()} />
-      {dialog === 'encounters' && (
-        <EncountersDialog
-          initial={config}
-          onClose={() => setDialog(null)}
-          onStart={(c) => {
-            setConfig(c)
-            session.applyConfig(c)
-            setDialog(null)
-          }}
-        />
-      )}
-      {dialog === 'settings' && <SettingsDialog values={settings} onChange={setSettings} onClose={() => setDialog(null)} />}
-    </>
+    <div className="app-container">
+      <FpsCounter />
+      <PausedBanner />
+      <AppMenus runtime={session.runtime} cache={session.cache} onStart={(config) => session.startRun(config)} />
+      <section className="grid-panel">
+        <div className="game-viewport-stage">
+          <div className="game-workspace">
+            <ClientFrame
+              runtime={session.runtime}
+              viewport={
+                <>
+                  <GameViewport runtime={session.runtime} frameSoundFeed={session.audio.frameSoundFeed} onReady={setApi} />
+                  <ViewportInput runtime={session.runtime} picker={api?.picker ?? null} />
+                  <PluginOverlays runtime={session.runtime} overlay={api?.overlay ?? null} audio={session.audio} soundName={soundName} />
+                </>
+              }
+            />
+          </div>
+          <div className="workspace-presentation-surface">
+            <div className="workspace-tools-host">
+              <HudTools runtime={session.runtime} viewportWidth={width} viewportHeight={height} rightReserved={204} />
+            </div>
+          </div>
+        </div>
+      </section>
+      <TitleCard encounterName={TRIPLE_JAD_ENCOUNTER.displayName} />
+      <OutcomeScreens state={snapshot.state} onRestart={() => session.runtime.restart()} />
+    </div>
   )
+}
+
+/** Shown while the user has paused the sim. */
+function PausedBanner() {
+  const runtime = useRuntime()
+  const [paused, setPaused] = useState(() => runtime.isPaused())
+  useEffect(() => runtime.onPauseChange(setPaused), [runtime])
+  if (!paused) return null
+  return (
+    <div className="paused-banner" role="status">
+      <span className="paused-banner__title">PAUSED</span>
+      <span className="paused-banner__hint">Press P to resume</span>
+    </div>
+  )
+}
+
+/** scim: render FPS in the top-right corner when Settings > showFps (Ctrl+Shift+F toggles it). */
+function FpsCounter() {
+  const visible = useSetting('showFps')
+  const fps = useRenderFps()
+  if (!visible) return null
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 6,
+        right: 8,
+        zIndex: 1000,
+        fontFamily: '"RuneScape Plain 11", monospace',
+        fontSize: 14,
+        color: '#c8aa6e',
+        pointerEvents: 'none',
+        textShadow: '1px 1px 0 #000',
+        lineHeight: 1,
+        userSelect: 'none',
+      }}
+    >
+      {fps > 0 ? fps : ''}
+    </div>
+  )
+}
+
+function describeProgress(p: CacheLoadProgress | null): string {
+  if (!p) return 'Loading game cache...'
+  if (p.phase === 'downloading' && p.totalBytes > 0) return `Downloading game cache ${Math.round((p.loadedBytes / p.totalBytes) * 100)}%`
+  if (p.phase === 'unpacking') return 'Unpacking game cache...'
+  return 'Loading game cache...'
 }

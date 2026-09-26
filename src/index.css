@@ -27,3 +27,36 @@ body,
 canvas {
   display: block;
 }
+
+/* Pause banner (our addition; styled with scim's gold title look). */
+.paused-banner {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 18px;
+  background: #1e1812e0;
+  border: 1px solid #38302340;
+  border-radius: 2px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+}
+.paused-banner__title {
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #d4a54a;
+  text-shadow: 1px 1px 0 #000;
+}
+.paused-banner__hint {
+  font-family: 'RuneScape Plain 11', sans-serif;
+  font-size: 14px;
+  color: #c8aa6e;
+  text-shadow: 1px 1px 0 #000;
+}

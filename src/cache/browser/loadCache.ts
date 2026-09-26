@@ -1,5 +1,6 @@
 import { CacheSystem } from '../CacheSystem'
 import { openDiskZip } from '../loadDiskZip'
+import { publicUrl } from '../../app/publicUrl'
 
 export interface CacheLoadProgress {
   phase: 'checking' | 'downloading' | 'unpacking' | 'ready'
@@ -10,13 +11,30 @@ export interface CacheLoadProgress {
   fromCache: boolean
 }
 
-const CACHE_STORAGE_NAME = 'zuk-osrs-cache-v1'
+// Versioned by OpenRS2 cache id so a cache switch never serves stale bytes.
+const CACHE_STORAGE_NAME = 'zuk-osrs-cache-2720'
 
 /**
  * Fetch the OpenRS2 `disk.zip` mirror served by our own origin, keeping a
  * copy in the browser's Cache Storage so reloads skip the download, then
  * open it as a CacheSystem.
  */
+/**
+ * Prefer the trimmed mirror (a few MB, built by scripts/trim-cache.ts) and
+ * fall back to the full OpenRS2 zip when it is absent.
+ */
+export async function loadBestCache(onProgress: (p: CacheLoadProgress) => void): Promise<CacheSystem> {
+  try {
+    const head = await fetch(publicUrl('osrs-cache/trimmed/disk.zip'), { method: 'HEAD' })
+    if (head.ok && (head.headers.get('content-type') ?? '').includes('zip')) {
+      return await loadCacheFromUrl(publicUrl('osrs-cache/trimmed/disk.zip'), onProgress)
+    }
+  } catch {
+    // fall through
+  }
+  return loadCacheFromUrl(publicUrl('osrs-cache/disk.zip'), onProgress)
+}
+
 export async function loadCacheFromUrl(
   url: string,
   onProgress: (p: CacheLoadProgress) => void,
@@ -79,6 +97,10 @@ export async function loadCacheFromUrl(
 async function openCacheStorage(): Promise<Cache | null> {
   try {
     if (typeof caches === 'undefined') return null
+    // Drop copies of older cache versions (each is ~190 MB).
+    for (const name of await caches.keys()) {
+      if (name.startsWith('zuk-osrs-cache-') && name !== CACHE_STORAGE_NAME) await caches.delete(name)
+    }
     return await caches.open(CACHE_STORAGE_NAME)
   } catch {
     return null

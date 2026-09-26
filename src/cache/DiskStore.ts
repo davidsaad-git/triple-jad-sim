@@ -23,9 +23,23 @@ export class DiskStore {
   private readonly dat2: Uint8Array
   private readonly indexes: Map<number, Uint8Array>
 
+  /** Optional trace hook: called for every archive read (used by the cache trimmer). */
+  onRead: ((indexId: number, archiveId: number) => void) | null = null
+
   constructor(files: DiskStoreFiles) {
     this.dat2 = files.dat2
     this.indexes = files.indexes
+  }
+
+  /** Raw index entry (size, first sector) or null. */
+  entry(indexId: number, archiveId: number): { size: number; sector: number } | null {
+    const idx = this.indexes.get(indexId)
+    if (!idx) return null
+    const e = archiveId * 6
+    if (e + 6 > idx.length) return null
+    const size = (idx[e]! << 16) | (idx[e + 1]! << 8) | idx[e + 2]!
+    const sector = (idx[e + 3]! << 16) | (idx[e + 4]! << 8) | idx[e + 5]!
+    return size > 0 && sector > 0 ? { size, sector } : null
   }
 
   get indexIds(): number[] {
@@ -44,6 +58,7 @@ export class DiskStore {
 
   /** Raw (still compressed) container bytes for an archive, or null if absent. */
   read(indexId: number, archiveId: number): Uint8Array | null {
+    this.onRead?.(indexId, archiveId)
     const idx = this.indexes.get(indexId)
     if (!idx) return null
     const entry = archiveId * 6

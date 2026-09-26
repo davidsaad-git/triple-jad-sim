@@ -1,0 +1,147 @@
+/* scim.gg shortcut tip toasts. */
+.zoom-hint-toast-stack {
+  z-index: 9999;
+  pointer-events: none;
+  gap: 8px;
+  transition: left .3s cubic-bezier(.2, .8, .2, 1);
+  display: flex;
+  position: fixed;
+}
+.zoom-hint-toast {
+  box-sizing: border-box;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  width: fit-content;
+  max-width: 340px;
+  color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+  border-radius: 2px;
+  padding: 8px 12px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.zoom-hint-toast__main {
+  align-items: flex-start;
+  gap: 8px;
+  display: flex;
+}
+.zoom-hint-toast__tip {
+  color: var(--color-text-muted);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  flex: none;
+  margin-top: 2px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+}
+.zoom-hint-toast__body {
+  flex-direction: column;
+  flex: auto;
+  gap: 3px;
+  min-width: 0;
+  display: flex;
+}
+.zoom-hint-toast__emph {
+  color: var(--color-text-body);
+  font-family: "RuneScape Bold 12", sans-serif;
+}
+.zoom-hint-toast__opt-out {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  text-align: left;
+  background: 0 0;
+  border: 0;
+  padding: 0;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 11px;
+  text-decoration: none;
+  transition: color .15s;
+}
+.zoom-hint-toast__opt-out:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+.zoom-hint-toast__close {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  flex: none;
+  margin: -1px -2px 0 0;
+  padding: 0;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 15px;
+  line-height: 18px;
+  transition: color .15s;
+}
+.zoom-hint-toast__close:hover {
+  color: var(--color-secondary);
+}
+.zoom-hint-toast__close:focus-visible {
+  outline: 1px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.zoom-hint-toast--enter {
+  animation: .16s ease-out both zoomHintToastInRight;
+}
+.zoom-hint-toast--exit {
+  animation: .16s ease-in both zoomHintToastOutRight;
+}
+.zoom-hint-toast-stack--left .zoom-hint-toast--enter {
+  animation-name: zoomHintToastInLeft;
+}
+.zoom-hint-toast-stack--left .zoom-hint-toast--exit {
+  animation-name: zoomHintToastOutLeft;
+}
+@media (prefers-reduced-motion: reduce) {
+  .zoom-hint-toast--enter,
+  .zoom-hint-toast--exit {
+    animation: none;
+  }
+}
+@keyframes zoomHintToastInRight {
+  0% {
+    opacity: 0;
+    transform: translate(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes zoomHintToastOutRight {
+  0% {
+    opacity: 1;
+    transform: translate(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(14px);
+  }
+}
+@keyframes zoomHintToastInLeft {
+  0% {
+    opacity: 0;
+    transform: translate(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes zoomHintToastOutLeft {
+  0% {
+    opacity: 1;
+    transform: translate(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-14px);
+  }
+}

@@ -23,5 +23,21 @@ dist-ssr
 *.sln
 *.sw?
 
-# OSRS cache mirror (large, downloaded from OpenRS2)
-public/osrs-cache/
+# Full OSRS cache mirror (large, downloaded from OpenRS2); the trimmed one is committed
+public/osrs-cache/disk.zip
+public/osrs-cache/disk-*.zip
+
+# Third-party reference material (scim.gg bundle, not ours; never commit)
+.reference/
+
+# Kept private (see README): notes on scim.gg's code and the scripts that read its bundle
+docs/scim/
+docs/AGENT_BRIEF.md
+scripts/render-extract-bundle-data.ts
+scripts/sim-extract-bundle-data.ts
+
+# Previous build kept locally for reference
+attic/
+
+# Local cache keys / scratch
+public/osrs-cache/keys*.json

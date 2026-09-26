@@ -37,3 +37,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ## RuneLite (format reference)
 
 https://github.com/runelite/runelite — BSD 2-Clause. Used as the reference for cache formats; no code copied verbatim unless a file header says so.
+
+## RuneStar fonts
+
+https://github.com/RuneStar/fonts — CC0 1.0 Universal (public domain dedication).
+
+`public/fonts/RuneScape-Plain-11.ttf`, `RuneScape-Plain-12.ttf`, `RuneScape-Bold-12.ttf` and `RuneScape-Quill-8.ttf` are unmodified copies made by `scripts/build-ui-assets.ts`. `public/fonts/RuneScape-Small.ttf` is not part of that set: the script traces it from the game cache's own bitmap font (font 494, "p11_full") the same way (one unit square per glyph pixel).
+
+## RuneLite resource packs
+
+https://github.com/melkypie/resource-packs — BSD 2-Clause License (same terms as the rs-map-viewer notice above; copyright the respective pack authors).
+
+`public/assets/ui/packs/pack-browntown/` ("OSRS Wiki Browntown" by Nichy / nickyGyul), `pack-toblite/` ("TOBlite" by degradee / Sayolko) and `pack-duckscape/` ("DuckScape" by degradee / Sayolko) are copies of those packs' sprites, renamed to the sprite paths the chrome uses by `scripts/build-ui-assets.ts`. `pack-vanilla/`, `public/assets/items/` and the other `public/assets/ui/` sprites are exported from the game cache (Jagex).

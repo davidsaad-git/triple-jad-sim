@@ -1,0 +1,409 @@
+/*
+ * Tile-marker colour picker (scim W3) and label editor (scim G3), from scim's
+ * stylesheet. Theme tokens come
+ * from the resource-pack palette on :root; fallbacks are the Brown pack.
+ */
+.tile-marker-picker-backdrop,
+.tile-marker-label-backdrop {
+  z-index: 100100;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+}
+.tile-marker-picker,
+.tile-marker-label-editor {
+  background: var(--color-bg-solid, #1e1812);
+  border: 1px solid var(--modal-card-border, var(--color-border, #383023));
+  border-radius: var(--modal-radius, 2px);
+  width: 244px;
+  box-shadow: var(--modal-card-shadow, 0 16px 32px #0009, inset 0 0 0 1px #38302380);
+  pointer-events: auto;
+  flex-direction: column;
+  display: flex;
+  position: fixed;
+  overflow: hidden;
+}
+.tile-marker-picker {
+  animation: 0.14s cubic-bezier(0.2, 0.8, 0.2, 1) tile-marker-picker-in;
+}
+.tile-marker-label-editor {
+  -webkit-user-select: none;
+  user-select: none;
+  animation: 0.14s cubic-bezier(0.2, 0.8, 0.2, 1) tile-marker-label-in;
+}
+@keyframes tile-marker-picker-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes tile-marker-label-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.tile-marker-picker-header,
+.tile-marker-label-header {
+  background: var(--color-bg-elevated, #241d16);
+  border-bottom: 1px solid var(--color-border, #383023);
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 12px;
+  display: flex;
+}
+.tile-marker-picker-header {
+  align-items: center;
+}
+.tile-marker-label-header {
+  align-items: baseline;
+}
+.tile-marker-picker-heading {
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  display: flex;
+}
+.tile-marker-picker-title,
+.tile-marker-label-title {
+  color: var(--color-secondary, #c8aa6e);
+  text-shadow: 1px 1px #000;
+  white-space: nowrap;
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 14px;
+  line-height: 1.15;
+}
+.tile-marker-picker-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.tile-marker-picker-subtitle,
+.tile-marker-label-subtitle {
+  color: var(--color-text-muted, #8a7a5c);
+  font-family: 'RuneScape Plain 12', sans-serif;
+  font-size: 11px;
+  line-height: 1.15;
+}
+.tile-marker-label-subtitle {
+  white-space: nowrap;
+}
+.tile-marker-picker-identity {
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  display: flex;
+}
+.tile-marker-picker-current-name {
+  color: var(--color-secondary, #c8aa6e);
+  white-space: nowrap;
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 12px;
+}
+.tile-marker-picker-current {
+  border: 1px solid var(--color-border, #383023);
+  border-radius: 2px;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+}
+.tile-marker-picker-body {
+  flex-direction: column;
+  gap: 11px;
+  padding: 12px;
+  display: flex;
+}
+.tile-marker-picker-field {
+  gap: 8px;
+  display: flex;
+}
+.tile-marker-picker-sv {
+  border: 1px solid var(--color-border, #383023);
+  background: linear-gradient(to bottom, transparent, #000), linear-gradient(to right, #fff, transparent), var(--tile-marker-picker-hue, red);
+  cursor: crosshair;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+  appearance: none;
+  border-radius: 2px;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  height: 132px;
+  padding: 0;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.tile-marker-picker-sv:hover,
+.tile-marker-picker-hue:hover {
+  border-color: var(--color-primary-structure, #5d5245);
+}
+.tile-marker-picker-sv:focus-visible,
+.tile-marker-picker-hue:focus-visible {
+  border-color: var(--color-primary, #d4a54a);
+}
+.tile-marker-picker-sv-indicator {
+  pointer-events: none;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px #0009;
+}
+.tile-marker-picker-hue {
+  border: 1px solid var(--color-border, #383023);
+  cursor: ns-resize;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+  appearance: none;
+  background: linear-gradient(red, #ff0, #0f0, #0ff, #00f, #f0f, red);
+  border-radius: 2px;
+  outline: none;
+  flex-shrink: 0;
+  width: 16px;
+  height: 132px;
+  padding: 0;
+  display: block;
+  position: relative;
+  overflow: visible;
+}
+.tile-marker-picker-hue-thumb {
+  background: var(--color-secondary, #c8aa6e);
+  pointer-events: none;
+  border: 1px solid #101010;
+  border-radius: 2px;
+  width: 20px;
+  height: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px #00000080;
+}
+.tile-marker-picker-section {
+  flex-direction: column;
+  gap: 7px;
+  display: flex;
+}
+.tile-marker-picker-section-label {
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #8a7a5c);
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 10px;
+  display: flex;
+}
+.tile-marker-picker-section-value {
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-secondary, #c8aa6e);
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 11px;
+}
+.tile-marker-picker-swatches {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  display: grid;
+}
+.tile-marker-swatch {
+  border: 1px solid var(--color-border, #383023);
+  cursor: pointer;
+  border-radius: 2px;
+  width: 100%;
+  height: 20px;
+  padding: 0;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.tile-marker-swatch:hover {
+  border-color: var(--color-primary-structure, #5d5245);
+}
+.tile-marker-swatch.selected {
+  border-color: var(--color-primary, #d4a54a);
+  box-shadow: 0 0 0 1px var(--color-primary, #d4a54a);
+}
+.tile-marker-picker-hex-row {
+  align-items: stretch;
+  gap: 8px;
+  display: flex;
+}
+.tile-marker-picker-hex-input,
+.tile-marker-label-input {
+  box-sizing: border-box;
+  background: var(--color-surface-inset, #0a0805);
+  border: 1px solid var(--color-border, #383023);
+  color: var(--color-secondary, #c8aa6e);
+  text-shadow: 1px 1px #000;
+  border-radius: 2px;
+  outline: none;
+  padding: 7px 10px;
+  font-family: 'RuneScape Plain 12', sans-serif;
+  font-size: 13px;
+}
+.tile-marker-picker-hex-input {
+  min-width: 0;
+  letter-spacing: 0.5px;
+  flex: 1;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.tile-marker-label-input {
+  width: 100%;
+  transition: border-color 0.15s;
+}
+.tile-marker-label-input::placeholder {
+  color: var(--color-text-muted, #8a7a5c);
+}
+.tile-marker-picker-hex-input:hover,
+.tile-marker-label-input:hover {
+  border-color: var(--color-primary-structure, #5d5245);
+}
+.tile-marker-picker-hex-input:focus,
+.tile-marker-label-input:focus {
+  border-color: var(--color-primary, #d4a54a);
+  outline: none;
+}
+.tile-marker-picker-hex-preview {
+  border: 1px solid var(--color-border, #383023);
+  border-radius: 2px;
+  flex-shrink: 0;
+  width: 32px;
+}
+.tile-marker-picker-range {
+  appearance: none;
+  background: var(--color-surface-inset, #0a0805);
+  cursor: pointer;
+  border: 1px solid var(--color-border, #383023);
+  border-radius: 2px;
+  outline: none;
+  width: 100%;
+  height: 6px;
+}
+.tile-marker-picker-range:focus {
+  outline: none;
+}
+.tile-marker-picker-range::-webkit-slider-runnable-track {
+  background: 0 0;
+  border-radius: 2px;
+  height: 6px;
+}
+.tile-marker-picker-range::-webkit-slider-thumb {
+  appearance: none;
+  background: var(--color-secondary, #c8aa6e);
+  cursor: pointer;
+  border: 1px solid #101010;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  transition: all 0.15s;
+}
+.tile-marker-picker-range:hover::-webkit-slider-thumb {
+  background: var(--color-primary, #d4a54a);
+}
+.tile-marker-picker-range::-moz-range-track {
+  background: var(--color-surface-inset, #0a0805);
+  border: 1px solid var(--color-border, #383023);
+  border-radius: 2px;
+  height: 6px;
+}
+.tile-marker-picker-range::-moz-range-thumb {
+  background: var(--color-secondary, #c8aa6e);
+  cursor: pointer;
+  border: 1px solid #101010;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  transition: all 0.15s;
+}
+.tile-marker-picker-range:hover::-moz-range-thumb {
+  background: var(--color-primary, #d4a54a);
+}
+.tile-marker-label-body {
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px;
+  display: flex;
+}
+.tile-marker-label-clear {
+  color: var(--color-text-muted, #8a7a5c);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  align-self: flex-start;
+  padding: 0;
+  font-family: 'RuneScape Bold 12', sans-serif;
+  font-size: 11px;
+  transition: color 0.15s;
+}
+.tile-marker-label-clear:hover {
+  color: var(--color-secondary, #c8aa6e);
+}
+.tile-marker-picker-footer,
+.tile-marker-label-footer {
+  background: var(--color-bg-elevated, #241d16);
+  border-top: 1px solid var(--color-border, #383023);
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 9px 12px;
+  display: flex;
+}
+
+/* Buttons (scim .osrs-btn), scoped to these dialogs. */
+.tile-marker-picker-footer .osrs-btn,
+.tile-marker-label-footer .osrs-btn {
+  background-color: var(--color-surface, #14100c);
+  border: 1px solid var(--color-border, #383023);
+  color: var(--color-secondary, #c8aa6e);
+  text-shadow: 1px 1px #000;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  font-family: 'RuneScape Bold 12', sans-serif;
+  line-height: 1.2;
+  transition: all 0.15s;
+  display: inline-flex;
+  min-width: 78px;
+  padding: 6px 14px;
+  font-size: 13px;
+}
+.tile-marker-picker-footer .osrs-btn:hover,
+.tile-marker-label-footer .osrs-btn:hover {
+  background-color: var(--color-surface-hover, #363229);
+  border-color: var(--color-primary-structure, #5d5245);
+  color: var(--color-primary, #d4a54a);
+}
+.tile-marker-picker-footer .osrs-btn:active,
+.tile-marker-label-footer .osrs-btn:active {
+  background-color: var(--color-surface-inset, #0a0805);
+}
+.tile-marker-picker-footer .osrs-btn--primary,
+.tile-marker-label-footer .osrs-btn--primary {
+  background-color: var(--primary-dim, #d4a54a0f);
+  border-color: var(--color-secondary, #c8aa6e);
+  color: var(--color-primary, #d4a54a);
+  box-shadow: inset 0 1px #ffdc8c0a;
+}
+.tile-marker-picker-footer .osrs-btn--primary:hover,
+.tile-marker-label-footer .osrs-btn--primary:hover {
+  background-color: var(--color-surface-hover, #363229);
+  border-color: var(--color-primary, #d4a54a);
+  color: var(--color-primary-hover, #dfc06a);
+  box-shadow: inset 0 1px #ffdc8c0f;
+}

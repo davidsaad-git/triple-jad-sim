@@ -1,0 +1,19 @@
+{
+  "source": "OpenRS2 cache 2720 (build 240), https://archive.openrs2.org/caches/runescape/2720",
+  "trimmedAt": "2026-09-26T07:15:34.298Z",
+  "archives": 3819,
+  "dat2Bytes": 7743320,
+  "zipBytes": 6712512,
+  "equipmentModels": true,
+  "indexes": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    9,
+    255
+  ]
+}

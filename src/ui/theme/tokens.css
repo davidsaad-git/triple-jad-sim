@@ -1,0 +1,34 @@
+/*
+ * Static :root defaults for the resource-pack theme tokens (scim: the
+ * Brown Theme values). applyPackTheme() overwrites them inline when the pack
+ * changes (src/ui/theme/palettes.ts).
+ */
+:root {
+  --color-primary: #d4a54a;
+  --color-primary-hover: #dfc06a;
+  --color-primary-structure: #5d5245;
+  --color-secondary: #c8aa6e;
+  --color-bg: rgb(30, 24, 18);
+  --color-bg-solid: #1e1812;
+  --color-bg-elevated: #241d16;
+  --color-surface: #14100c;
+  --color-surface-inset: #0a0805;
+  --color-surface-hover: #363229;
+  --color-surface-highlight: rgba(255, 255, 255, 0.05);
+  --color-border: #383023;
+  --color-text-body: #d2bea0;
+  --color-text-muted: #8a7a5c;
+  --color-text-dim: #5a4d3e;
+  --color-error: #d46a60;
+  --color-success: #6dba6d;
+  --color-warning: #d4a848;
+  --color-info: #6898c0;
+  --color-limited-notice: #8c8c8c;
+  --shadow-glow: 0 0 10px rgba(212, 165, 74, 0.1);
+  --hud-bg: rgba(30, 24, 18, 0.88);
+  --hud-border: rgba(56, 48, 35, 0.25);
+  --color-surface-translucent: rgba(20, 16, 12, 0.92);
+  --color-border-translucent: rgba(56, 48, 35, 0.5);
+  --infobox-tint: rgba(15, 12, 8, 0.75);
+  --primary-dim: color-mix(in srgb, var(--color-secondary) 12%, var(--color-bg-elevated));
+}

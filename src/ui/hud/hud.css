@@ -1,0 +1,695 @@
+/* scim.gg HUD tool stack styles. */
+.hud,
+.practice-panel {
+  --hud-label:color-mix(in srgb, var(--color-secondary) 85%, var(--color-text-muted));
+  --hud-value:var(--color-text-body);
+  --hud-accent:var(--color-secondary);
+  --hud-dim:color-mix(in srgb, var(--color-text-muted) 70%, var(--color-secondary));
+}
+.hud {
+  box-sizing: border-box;
+  pointer-events: none;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  width: 216px;
+  color: var(--hud-value);
+  border-radius: 2px;
+  flex-direction: column;
+  flex: none;
+  gap: 8px;
+  padding: 10px 12px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 16px;
+  display: flex;
+  position: relative;
+}
+.hud-tools-stack {
+  pointer-events: none;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 0;
+  display: flex;
+}
+.hud-tools-stack[data-anchor=right] {
+  align-items: flex-end;
+}
+.hud-tool-row {
+  flex-wrap: wrap;
+  flex: none;
+  gap: 8px;
+  display: flex;
+}
+.hud-tools-stack[data-anchor=right] .hud-tool-row {
+  justify-content: flex-end;
+}
+.hud-pill {
+  pointer-events: auto;
+  box-sizing: border-box;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  transition: border-color .2s ease-out, background .2s ease-out;
+  display: inline-flex;
+}
+.hud-pill:hover {
+  border-color: var(--color-border-translucent);
+  background: var(--color-surface-translucent);
+}
+.hud-pill-label {
+  color: var(--color-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px #000;
+  font-size: 16px;
+  line-height: 1;
+  transition: color .15s;
+}
+.hud-pill:hover .hud-pill-label {
+  color: var(--color-text-body);
+}
+.hud-pill.is-on {
+  border-color: color-mix(in srgb, var(--color-primary) 60%, var(--hud-border));
+  background: color-mix(in srgb, var(--color-primary) 16%, var(--hud-bg));
+}
+.hud-pill.is-on .hud-pill-label {
+  color: var(--color-text-body);
+}
+.hud-practice-button:disabled {
+  cursor: default;
+}
+.hud-practice-button:disabled .hud-pill-label {
+  color: var(--color-text-muted);
+}
+.hud-replay-button .hud-pill-label,
+.hud-practice-button .hud-pill-label {
+  text-transform: none;
+  letter-spacing: normal;
+}
+.hud-pill:active {
+  transform: scale(.97);
+}
+.hud-head {
+  align-items: baseline;
+  gap: 8px;
+  padding-right: 24px;
+  display: flex;
+}
+.hud-header-title {
+  color: var(--hud-accent);
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.hud-header-sep {
+  color: var(--hud-dim);
+  text-shadow: 1px 1px #000;
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: RuneScape Small, sans-serif;
+  font-size: 16px;
+  line-height: 14px;
+}
+.hud-header-tick {
+  color: var(--hud-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.hud-bars {
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+}
+.hud-bar-group {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.hud-bar-info {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.hud-bar-label {
+  color: var(--hud-label);
+  text-shadow: 1px 1px #000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  transition: color .25s ease-out;
+  overflow: hidden;
+}
+.hud-bar-num {
+  color: var(--hud-value);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 1px 1px #000;
+  font-size: 16px;
+  line-height: 16px;
+  transition: color .25s ease-out;
+}
+.hud-bar-sep {
+  color: var(--hud-dim);
+  margin: 0 1px;
+}
+.hud-bar-track {
+  background: #ffffff0d;
+  border: 1px solid #ffffff0a;
+  border-radius: 1px;
+  width: 100%;
+  height: 5px;
+  transition: opacity .25s ease-out;
+  overflow: hidden;
+}
+.hud-bar-group.is-dim .hud-bar-label,
+.hud-bar-group.is-dim .hud-bar-num {
+  color: var(--hud-dim);
+}
+.hud-bar-group.is-dim .hud-bar-track {
+  opacity: .5;
+}
+.hud-bar-fill {
+  background-image: linear-gradient(#ffffff0f 0%, #0000000a 100%);
+  border-radius: 1px;
+  height: 100%;
+  transition: width .3s cubic-bezier(.25, 1, .5, 1);
+}
+.hud-stats {
+  flex-direction: column;
+  gap: 3px;
+  display: flex;
+}
+.hud-stat-row {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.hud-stat-label {
+  color: var(--hud-label);
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.hud-stat-value {
+  color: var(--hud-value);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 1px 1px #000;
+  font-size: 16px;
+  line-height: 16px;
+}
+.hud-dps-inline {
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 3px;
+  min-width: 87px;
+  display: inline-flex;
+}
+.hud-dps-actual {
+  color: var(--hud-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.hud-dps-sep {
+  color: var(--hud-dim);
+  line-height: 16px;
+}
+.hud-dps-expected {
+  color: var(--hud-label);
+  font-variant-numeric: tabular-nums;
+  line-height: 16px;
+}
+.hud-dps-actual.hud-dps-lucky {
+  color: var(--color-success);
+}
+.hud-dps-actual.hud-dps-unlucky {
+  color: var(--color-error);
+}
+.practice-panel {
+  box-sizing: border-box;
+  pointer-events: auto;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  width: 216px;
+  max-width: 100%;
+  min-height: 0;
+  max-height: 520px;
+  color: var(--hud-value);
+  text-align: left;
+  border-radius: 2px;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 8px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 16px;
+  display: flex;
+}
+.practice-panel-head {
+  flex: none;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 0;
+  display: flex;
+}
+.practice-panel-title {
+  color: var(--hud-accent);
+  letter-spacing: normal;
+  text-transform: none;
+  text-shadow: 1px 1px #000;
+  white-space: nowrap;
+  margin: 0;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.practice-panel-close,
+.hud-close {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  color: var(--hud-label);
+  cursor: pointer;
+  text-shadow: 1px 1px #000;
+  background: 0 0;
+  border: none;
+  flex: none;
+  padding: 1px;
+  font-size: 16px;
+  line-height: 16px;
+  transition: color .15s;
+}
+.practice-panel-close:hover,
+.hud-close:hover {
+  color: var(--hud-accent);
+}
+.practice-panel-close:focus-visible,
+.hud-close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+.hud-close {
+  pointer-events: auto;
+  position: absolute;
+  top: 4px;
+  right: 8px;
+}
+.practice-panel-body {
+  flex: auto;
+  min-height: 0;
+  display: block;
+  overflow: hidden;
+}
+.practice-panel--wide .practice-panel-body {
+  display: flex;
+}
+.practice-panel-body > .mechanics-settings--practice {
+  flex: auto;
+  min-height: 0;
+}
+.practice-panel .practice-scroll-body,
+.practice-panel .practice-restore-rail {
+  overscroll-behavior: contain;
+  overflow: hidden auto;
+}
+.practice-panel .practice-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+.practice-panel .practice-restore-rail::-webkit-scrollbar {
+  width: 6px;
+}
+.practice-panel .practice-scroll-body::-webkit-scrollbar-thumb {
+  background: var(--hud-dim);
+  border-radius: 2px;
+}
+.practice-panel .practice-restore-rail::-webkit-scrollbar-thumb {
+  background: var(--hud-dim);
+  border-radius: 2px;
+}
+.practice-panel .practice-scroll-body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+.practice-panel .practice-restore-rail::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+@supports not selector(::-webkit-scrollbar) {
+  .practice-panel .practice-scroll-body,
+  .practice-panel .practice-restore-rail {
+    scrollbar-width: thin;
+    scrollbar-color: var(--hud-dim) transparent;
+  }
+}
+.mechanics-practice-groups {
+  flex-direction: column;
+  flex: auto;
+  gap: 2px;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+.practice-panel--wide .mechanics-practice-groups {
+  grid-auto-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 4px 12px;
+  width: max-content;
+  max-width: 100%;
+  display: grid;
+}
+.practice-panel--wide .mechanics-practice-groups.is-flow-scrolling {
+  grid-auto-rows: max-content;
+  align-items: start;
+}
+.practice-panel .mechanics-practice-groups[hidden],
+.practice-panel .mechanics-group[hidden] {
+  display: none;
+}
+.practice-panel--wide .mechanics-settings--practice {
+  min-width: 0;
+}
+.practice-panel--wide .mechanics-settings--practice[data-collapse-layout=side] {
+  flex-direction: row;
+  gap: 12px;
+}
+.practice-panel--wide [data-collapse-layout=side] .mechanics-practice-groups {
+  flex: 0 auto;
+}
+.practice-restore-rail {
+  border: 0;
+  flex-wrap: wrap;
+  flex: 0 auto;
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+[data-collapse-layout=side] .practice-restore-rail {
+  border-left: 1px solid var(--hud-border);
+  flex-flow: column;
+  flex: none;
+  padding-left: 8px;
+}
+[data-collapse-layout=footer] .practice-restore-rail {
+  border-top: 1px solid var(--hud-border);
+  flex: none;
+  padding-top: 4px;
+}
+[data-collapse-layout=closed] .practice-restore-rail {
+  max-width: 198px;
+}
+.practice-panel .practice-restore-rail .practice-restore-toggle {
+  white-space: nowrap;
+  border: 1px solid #0000;
+  flex: none;
+  gap: 4px;
+  width: auto;
+  min-height: 22px;
+  padding: 2px 0;
+}
+.practice-panel .practice-restore-toggle:hover {
+  border-color: var(--hud-border);
+}
+.practice-panel--wide .mechanics-group {
+  max-width: 224px;
+}
+.practice-panel--wide .mechanics-settings--practice .mechanics-group-body[hidden] {
+  visibility: hidden;
+  max-height: 0;
+  display: flex;
+  overflow: clip;
+}
+.practice-panel--wide {
+  max-height: min(144px, 100%);
+}
+.practice-panel--wide .mechanics-choice {
+  gap: 4px;
+}
+.practice-panel .mechanics-choice {
+  width: 192px;
+  max-width: 100%;
+}
+.practice-panel .mechanics-settings {
+  gap: 2px;
+}
+.practice-panel--wide .mechanics-group-toggle {
+  padding: 3px 0;
+}
+.practice-panel--wide .mechanics-group:has(.setting-row--dependent) .mechanics-toggles {
+  grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
+  grid-auto-flow: dense;
+  gap: 2px 8px;
+  display: grid;
+}
+.practice-panel--wide .mechanics-toggle-family:has(.setting-row--dependent) {
+  grid-column: 1/-1;
+}
+.practice-panel .setting-row--dependent .mechanics-choice-label {
+  margin-left: -8px;
+}
+.practice-panel .mechanics-toggle-family > .setting-row:not(.setting-row--dependent) + .setting-row--dependent {
+  border-top: 1px solid var(--hud-border);
+  margin-top: 3px;
+  padding-top: 3px;
+}
+.practice-panel .setting-row--dependent + .setting-row--dependent {
+  margin-top: 3px;
+}
+.practice-panel .mechanics-toggle-info {
+  max-width: 100%;
+}
+.practice-panel .mechanics-toggles {
+  gap: 2px;
+}
+.practice-panel .setting-row {
+  min-height: 16px;
+  padding-left: 0;
+}
+.practice-panel .setting-row--dependent {
+  padding-left: 8px;
+}
+.practice-panel .mechanics-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  display: grid;
+}
+.practice-panel .mechanics-actions .osrs-btn {
+  white-space: normal;
+  flex: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.practice-panel .osrs-checkbox {
+  flex-shrink: 1;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.practice-panel .osrs-checkbox__box {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+}
+.practice-panel .boss-health-name {
+  line-height: 12px;
+}
+.practice-panel .osrs-checkbox__label,
+.practice-panel .mechanics-choice-label {
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.practice-panel .mechanics-choice-segment:focus-visible {
+  outline-color: var(--color-primary);
+}
+.practice-panel .mechanics-actions .osrs-btn--small {
+  letter-spacing: normal;
+  padding: 3px 4px;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 14px;
+}
+.practice-panel .mechanics-choice-segment {
+  min-height: 28px;
+  padding: 4px 2px;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+}
+.practice-panel .mechanics-choice-segmented {
+  padding: 2px;
+}
+.practice-panel .boss-health {
+  gap: 4px;
+  padding-bottom: 0;
+}
+.practice-panel .boss-health-slider {
+  margin: 0 0 2px;
+}
+.practice-panel .boss-health-phases legend {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+}
+.practice-panel .boss-health-presets {
+  flex-wrap: wrap;
+  gap: 2px;
+  display: flex;
+}
+.practice-panel .boss-health-preset {
+  padding: 2px 4px;
+}
+.practice-panel .boss-health-preset-hp {
+  display: none;
+}
+.hud-stat-value.prayer-magic {
+  color: var(--color-info);
+}
+.hud-stat-value.prayer-range {
+  color: var(--color-success);
+}
+.hud-stat-value.prayer-melee {
+  color: var(--color-error);
+}
+.hud--compact {
+  grid-template-columns: 132px minmax(0, 1fr);
+  grid-template-areas: "head head""bars stats";
+  align-items: stretch;
+  gap: 6px 12px;
+  width: auto;
+  padding: 4px 8px;
+  display: grid;
+}
+.hud--compact .hud-head {
+  grid-area: head;
+}
+.hud--compact .hud-bars {
+  grid-area: bars;
+  gap: 4px;
+  width: 132px;
+}
+.hud--compact .hud-bar-group {
+  gap: 0;
+}
+.hud--compact .hud-bar-track {
+  height: 3px;
+}
+.hud--compact .hud-bar-label,
+.hud--compact .hud-bar-num,
+.hud--compact .hud-stat-label,
+.hud--compact .hud-stat-value,
+.hud--compact .hud-dps-actual,
+.hud--compact .hud-dps-sep,
+.hud--compact .hud-dps-expected {
+  line-height: 14px;
+}
+.hud--compact .hud-stats {
+  border-left: 1px solid color-mix(in srgb, var(--hud-dim) 55%, transparent);
+  grid-area: stats;
+  gap: 3px;
+  padding-left: 8px;
+}
+.hud--compact .hud-stat-row {
+  gap: 8px;
+}
+.hud--compact .hud-stat-value:not(.hud-dps-inline) {
+  text-align: right;
+  min-width: 3ch;
+  display: inline-block;
+}
+.hud--compact .hud-header-tick {
+  min-width: 4ch;
+}
+.hud--compact-tight {
+  box-sizing: border-box;
+  grid-template-columns: minmax(100px, 1fr) max-content;
+  max-width: 100%;
+}
+.hud--compact-tight .hud-bars {
+  flex: 132px;
+  width: auto;
+  min-width: 100px;
+}
+.hud--compact-tight .hud-stats {
+  padding-left: 8px;
+}
+.hud--compact-tight .hud-stat-row {
+  gap: 8px;
+}
+.hud--narrow {
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "head""bars""stats";
+  gap: 6px;
+  width: 211px;
+  max-width: 100%;
+}
+.hud--narrow .hud-bars {
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  display: flex;
+}
+.hud--narrow .hud-bar-group {
+  flex: 1;
+  min-width: 0;
+}
+.hud--narrow .hud-stats {
+  border: 0;
+  flex-direction: row;
+  gap: 6px;
+  padding: 0;
+}
+.hud--narrow .hud-stat-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+.hud-tools-stack[data-narrow=true] .hud-pill {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.hud-tools-stack[data-side-by-side=true] {
+  align-items: flex-start;
+  position: relative;
+}
+.hud-tools-stack[data-side-by-side=true] .hud-tool-row {
+  justify-content: flex-start;
+}
+.hud-status {
+  pointer-events: none;
+  flex: none;
+}
+.hud-tools-stack[data-side-by-side=true] > .practice-panel {
+  height: 160px;
+  max-height: inherit;
+  position: absolute;
+  bottom: 0;
+}
+.hud-tools-stack[data-side-by-side=true] > .practice-panel:has([data-collapse-layout=closed]) {
+  height: auto;
+}

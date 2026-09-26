@@ -1,54 +1,25 @@
 # Architecture
 
-Goal: a browser OSRS Inferno simulator (waves 1-69 and TzKal-Zuk) that looks and behaves like scim.gg. Everything runs client-side; there is no backend in v1.
-
-## Layers
+A browser simulator of Old School RuneScape's Inferno wave 68 (three JalTok-Jads). Everything runs client-side from the real game cache; there is no backend.
 
 ```
-src/cache     JS5 cache reader + decoders (configs, models, animations, maps, sprites, textures)
-src/scene     Terrain geometry, collision map, pathfinding, line of sight (from cache data)
-src/engine    Deterministic 600 ms tick simulation: world, actors, combat, prayers, Inferno AI
-src/render    WebGL2 renderer, camera, model/terrain meshes, animation playback
-src/ui        React: loading, client chrome (fixed / resizable layouts), tabs, plugins, overlays
-src/data      Static game data tables (waves, monsters, items, prayers, presets)
-src/app       Wiring: cache -> scene -> engine -> render -> ui
+src/cache    JS5 cache reader and decoders (configs, models, animations, maps, textures, sounds)
+src/sim      Deterministic 600 ms tick engine: world, input band, movement/pathing, combat,
+             items/prayers, NPC definitions, the triple-Jad encounter, loadout presets
+src/render   WebGL2 renderer: arena scene, camera, actors and animations, projectiles and
+             graphics, hitsplats/health bars/prayer icons, world-space plugin overlays, picking
+src/audio    Web Audio engine, sound rules per tick event, cache sound synthesis
+src/input    Pointer/keyboard handling, right-click menus, hotkeys, dialogs
+src/app      Runtime (real-time tick clock, input lag queue, pause), session wiring, settings
+src/ui       Client chrome (layouts, side panel, minimap, orbs), menus, HUD, plugins, screens
 ```
 
-Dependency direction is top-down in that list: `engine` never imports from `render` or `ui`. The renderer reads engine state each frame and interpolates by the clock's tick alpha. The UI dispatches inputs (clicks on tiles/NPCs, prayer toggles, inventory clicks) into the engine as queued actions that apply on the next tick, the way the real client does.
+Contracts between layers live in `src/sim/api.ts` (engine state snapshot, tick events, commands), `src/app/runtime/types.ts` (the runtime every layer talks to) and `src/render/api.ts` (picking, overlay anchors, frame sounds).
+
+## Tick flow
+
+The runtime advances the engine once every 600 ms / playback speed on animation frames. UI commands are queued with the configured input lag and applied right before the next tick boundary. Each tick the engine processes inputs, hazards, NPC hits, NPC movement and attacks, player hits, timers, player movement and the player's attack, then publishes a state snapshot and the tick's events. The renderer and audio consume those events on an interpolated clock (30 client cycles of 20 ms per tick).
 
 ## Cache
 
-- `DiskStore` reads the OpenRS2 `disk.zip` layout (`main_file_cache.dat2` + `idx*`). `CacheSystem` exposes `index -> archive -> file` with lazy, memoised decoding; containers handle bzip2 (own decoder), gzip (fflate) and XTEA (unused since build 237).
-- In the browser `loadCacheFromUrl` streams `/osrs-cache/disk.zip`, keeps it in Cache Storage, and unzips in memory. Later: a build-time trim (scim.gg does this: 189 MB -> 9.85 MB) that keeps only the groups the Inferno needs.
-- Decoders are ported from rs-map-viewer (BSD-2) and kept in `src/cache/{config,model,anim,map,sprite,texture}`.
-
-## Scene
-
-One region (9043) at a time. Terrain tiles become triangle soup with per-vertex baked lighting; locs are placed models. The collision map uses the client's flag scheme; the pathfinder and line-of-sight follow RuneLite's implementations so safespots behave.
-
-## Engine
-
-- `Clock`: fixed 600 ms ticks with playback speed, pause and step; exposes `alpha` for rendering.
-- `World.tick()` order (matches the SDK research): prayer pre-tick, entities (pillars), NPC timers / movement / attacks, spawn queue, delayed actions, projectiles, player timers / movement / attacks, food, regen, death cleanup.
-- Actors carry tile position, size, facing, animation state, hitpoints, prayer, combat timers and a hitsplat queue. NPC behaviour is per-monster AI modules in `engine/inferno`.
-- Randomness goes through an injectable seeded RNG so a wave can be replayed exactly (scim.gg-style replays and "re-play this spawn").
-- Combat math lives in pure functions (`engine/combat/formulas.ts`) with unit tests against wiki values.
-
-## Render
-
-- `Renderer` owns WebGL2 state and a drawable list (VAO + model matrix). Terrain is static; actor models are re-skinned per animation frame on the CPU and re-uploaded (positions only), like the client.
-- Camera is client-like: yaw/pitch/zoom with arrows, middle-drag and wheel; compass angle feeds the minimap.
-- Picking: ray-cast against the tile heightmap and actor bounding boxes for click-to-move / attack; the UI shows a client-style right-click menu.
-
-## UI
-
-React 19. The client chrome (side panel tabs, minimap, orbs, chatbox, hitsplats, overheads, tile markers) is HTML/CSS over the canvas, styled by resource packs (PNG sprites from the cache plus RuneLite-style packs). Plugins are toggleable modules that draw overlays into a 2D canvas layer or React components.
-
-## Milestones
-
-1. Cache + renderer foundation (done): cache loads in browser, WebGL2 draws geometry, camera.
-2. Inferno arena renders from the cache: terrain, locs, textures; Zuk idle animation; player model.
-3. Playable core: click-to-move with pathfinding, camera, tick engine, prayers, HUD, one monster type attacking.
-4. Waves 1-66 with full monster AI (nibblers/pillars, bat drain, blob prayer check + bloblets, meleer dig, ranger/mager LOS, mager revive), gear/loadouts, hiscores-free stat profiles.
-5. Jad waves (healers, cues) and Zuk (shield, sets, set timer, Jad, healers, enrage).
-6. scim.gg parity: RuneLite-style layouts and plugins, resource packs, settings, encounter configure screen, mechanics toggles, replays, training drills.
+`public/osrs-cache/trimmed/disk.zip` holds only the archives the app reads (built by `scripts/trim-cache.ts` from OpenRS2 cache 2720). It is cached in the browser's Cache Storage after the first load.

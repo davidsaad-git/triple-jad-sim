@@ -1,0 +1,90 @@
+/**
+ * Spellbook grids (scim Arceuus / `hue` Ancient): icon, label,
+ * category, magic level; `supported` spells are castable utilities (home
+ * teleport, Mark of Darkness, Death Charge).
+ */
+export interface SpellGridEntry {
+  icon: string
+  label: string
+  category: 'combat' | 'teleport' | 'utility'
+  level: number
+  supported?: boolean
+}
+
+export const ARCEUUS_GRID: readonly SpellGridEntry[] = [
+  { icon: 'home_teleport', label: "Arceuus Home Teleport", category: 'teleport', level: 1, supported: true },
+  { icon: 'minigame_teleport', label: "Minigame Teleport", category: 'teleport', level: 1 },
+  { icon: 'arceuus_library_teleport', label: "Arceuus Library Teleport", category: 'teleport', level: 6 },
+  { icon: 'basic_reanimation', label: "Basic Reanimation", category: 'utility', level: 16 },
+  { icon: 'draynor_manor_teleport', label: "Draynor Manor Teleport", category: 'teleport', level: 17 },
+  { icon: 'battlefront_teleport', label: "Battlefront Teleport", category: 'teleport', level: 23 },
+  { icon: 'mind_altar_teleport', label: "Mind Altar Teleport", category: 'teleport', level: 28 },
+  { icon: 'respawn_teleport', label: "Respawn Teleport", category: 'teleport', level: 34 },
+  { icon: 'ghostly_grasp', label: "Ghostly Grasp", category: 'combat', level: 35 },
+  { icon: 'ressurect_lesser_ghost', label: "Resurrect Lesser Ghost", category: 'utility', level: 38 },
+  { icon: 'ressurect_lesser_skeleton', label: "Resurrect Lesser Skeleton", category: 'utility', level: 38 },
+  { icon: 'ressurect_lesser_zombie', label: "Resurrect Lesser Zombie", category: 'utility', level: 38 },
+  { icon: 'salve_graveyard_teleport', label: "Salve Graveyard Teleport", category: 'teleport', level: 40 },
+  { icon: 'adept_reanimation', label: "Adept Reanimation", category: 'utility', level: 41 },
+  { icon: 'inferior_demonbane', label: "Inferior Demonbane", category: 'combat', level: 44 },
+  { icon: 'shadow_veil', label: "Shadow Veil", category: 'combat', level: 47 },
+  { icon: 'fenkenstrains_castle_teleport', label: "Fenkenstrain's Castle Teleport", category: 'teleport', level: 48 },
+  { icon: 'dark_lure', label: "Dark Lure", category: 'combat', level: 50 },
+  { icon: 'skeletal_grasp', label: "Skeletal Grasp", category: 'combat', level: 56 },
+  { icon: 'ressurect_superior_ghost', label: "Resurrect Superior Ghost", category: 'utility', level: 57 },
+  { icon: 'ressurect_superior_skeleton', label: "Resurrect Superior Skeleton", category: 'utility', level: 57 },
+  { icon: 'ressurect_superior_zombie', label: "Resurrect Superior Zombie", category: 'utility', level: 57 },
+  { icon: 'mark_of_darkness', label: "Mark of Darkness", category: 'combat', level: 59, supported: true },
+  { icon: 'west_ardougne_teleport', label: "West Ardougne Teleport", category: 'teleport', level: 61 },
+  { icon: 'superior_demonbane', label: "Superior Demonbane", category: 'combat', level: 62 },
+  { icon: 'lesser_corruption', label: "Lesser Corruption", category: 'combat', level: 64 },
+  { icon: 'harmony_island_teleport', label: "Harmony Island Teleport", category: 'teleport', level: 65 },
+  { icon: 'vile_vigour', label: "Vile Vigour", category: 'utility', level: 66 },
+  { icon: 'degrime', label: "Degrime", category: 'utility', level: 70 },
+  { icon: 'cemetary_teleport', label: "Cemetery Teleport", category: 'teleport', level: 71 },
+  { icon: 'expert_reanimation', label: "Expert Reanimation", category: 'utility', level: 72 },
+  { icon: 'ward_of_arceuus', label: "Ward of Arceuus", category: 'combat', level: 73 },
+  { icon: 'ressurect_greater_ghost', label: "Resurrect Greater Ghost", category: 'utility', level: 76 },
+  { icon: 'ressurect_greater_skeleton', label: "Resurrect Greater Skeleton", category: 'utility', level: 76 },
+  { icon: 'ressurect_greater_zombie', label: "Resurrect Greater Zombie", category: 'utility', level: 76 },
+  { icon: 'reanimate_crops', label: "Resurrect Crops", category: 'utility', level: 78 },
+  { icon: 'undead_grasp', label: "Undead Grasp", category: 'combat', level: 79 },
+  { icon: 'death_charge', label: "Death Charge", category: 'combat', level: 80, supported: true },
+  { icon: 'dark_demonbane', label: "Dark Demonbane", category: 'combat', level: 82 },
+  { icon: 'barrows_teleport', label: "Barrows Teleport", category: 'teleport', level: 83 },
+  { icon: 'demonic_offering', label: "Demonic Offering", category: 'utility', level: 84 },
+  { icon: 'greater_corruption', label: "Greater Corruption", category: 'combat', level: 85 },
+  { icon: 'master_reanimation', label: "Master Reanimation", category: 'utility', level: 90 },
+  { icon: 'ape_atoll_teleport', label: "Ape Atoll Teleport", category: 'teleport', level: 90 },
+  { icon: 'sinister_offering', label: "Sinister Offering", category: 'utility', level: 92 },
+]
+
+export const ANCIENT_GRID: readonly SpellGridEntry[] = [
+  { icon: 'home_teleport', label: "Edgeville Home Teleport", category: 'teleport', level: 1, supported: true },
+  { icon: 'minigame_teleport', label: "Minigame Teleport", category: 'teleport', level: 1 },
+  { icon: 'smoke_rush', label: "Smoke Rush", category: 'combat', level: 50 },
+  { icon: 'shadow_rush', label: "Shadow Rush", category: 'combat', level: 52 },
+  { icon: 'paddewwa_teleport', label: "Paddewwa Teleport", category: 'teleport', level: 54 },
+  { icon: 'blood_rush', label: "Blood Rush", category: 'combat', level: 56 },
+  { icon: 'ice_rush', label: "Ice Rush", category: 'combat', level: 58 },
+  { icon: 'senntisten_teleport', label: "Senntisten Teleport", category: 'teleport', level: 60 },
+  { icon: 'smoke_burst', label: "Smoke Burst", category: 'combat', level: 62 },
+  { icon: 'shadow_burst', label: "Shadow Burst", category: 'combat', level: 64 },
+  { icon: 'kharyrll_teleport', label: "Kharyrll Teleport", category: 'teleport', level: 66 },
+  { icon: 'blood_burst', label: "Blood Burst", category: 'combat', level: 68 },
+  { icon: 'ice_burst', label: "Ice Burst", category: 'combat', level: 70 },
+  { icon: 'lassar_teleport', label: "Lassar Teleport", category: 'teleport', level: 72 },
+  { icon: 'smoke_blitz', label: "Smoke Blitz", category: 'combat', level: 74 },
+  { icon: 'shadow_blitz', label: "Shadow Blitz", category: 'combat', level: 76 },
+  { icon: 'dareeyak_teleport', label: "Dareeyak Teleport", category: 'teleport', level: 78 },
+  { icon: 'blood_blitz', label: "Blood Blitz", category: 'combat', level: 80 },
+  { icon: 'ice_blitz', label: "Ice Blitz", category: 'combat', level: 82 },
+  { icon: 'carrallangar_teleport', label: "Carrallanger Teleport", category: 'teleport', level: 84 },
+  { icon: 'teleport_to_target', label: "Teleport to Target", category: 'teleport', level: 85 },
+  { icon: 'smoke_barrage', label: "Smoke Barrage", category: 'combat', level: 86 },
+  { icon: 'shadow_barrage', label: "Shadow Barrage", category: 'combat', level: 88 },
+  { icon: 'annakarl_teleport', label: "Annakarl Teleport", category: 'teleport', level: 90 },
+  { icon: 'blood_barrage', label: "Blood Barrage", category: 'combat', level: 92 },
+  { icon: 'ice_barrage', label: "Ice Barrage", category: 'combat', level: 94 },
+  { icon: 'ghorrock_teleport', label: "Ghorrock Teleport", category: 'teleport', level: 96 },
+]

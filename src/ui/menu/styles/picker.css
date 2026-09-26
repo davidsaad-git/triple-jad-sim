@@ -1,0 +1,559 @@
+/* scim.gg styles for the MENUS module, taken from scim.gg's stylesheet. */
+.picker-overlay {
+  z-index: 80;
+  --picker-boss-sub:color-mix(in srgb, var(--color-text-muted) 42%, var(--color-text-body));
+  justify-content: center;
+  align-items: center;
+  padding: 5vh 16px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+.picker-overlay,
+.picker-overlay * {
+  box-sizing: border-box;
+}
+.picker-backdrop {
+  background: var(--modal-backdrop);
+  position: absolute;
+  inset: 0;
+}
+.picker {
+  background: var(--color-bg-solid);
+  border: 1px solid var(--modal-card-border);
+  width: 780px;
+  max-width: 94vw;
+  height: 524px;
+  max-height: 88dvh;
+  box-shadow: var(--modal-card-shadow);
+  border-radius: var(--modal-radius);
+  grid-template-columns: 248px 1fr;
+  animation: .2s cubic-bezier(.16, 1, .3, 1) picker-card-in;
+  display: grid;
+  position: relative;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .picker {
+    animation: none;
+  }
+}
+.picker-rail {
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-direction: column;
+  min-height: 0;
+  display: flex;
+}
+.picker-rail-head {
+  padding: 14px 14px 11px;
+}
+.picker-rail-head h2 {
+  color: var(--color-secondary);
+  margin: 0 0 11px;
+  font-size: 18px;
+  font-weight: 400;
+}
+.picker-search {
+  position: relative;
+}
+.picker-search svg {
+  width: 13px;
+  height: 13px;
+  color: var(--color-text-muted);
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  transform: translateY(-50%);
+}
+.picker-search input {
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  width: 100%;
+  color: var(--color-text-body);
+  border-radius: 2px;
+  outline: none;
+  padding: 7px 10px 7px 29px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 13px;
+  transition: border-color .15s;
+}
+.picker-search input::placeholder {
+  color: var(--color-text-muted);
+}
+.picker-search input:focus {
+  border-color: var(--color-primary);
+}
+.picker-rail-scroll {
+  flex: 1;
+  padding: 4px 8px 8px;
+  overflow-y: auto;
+}
+.picker-rail-section {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 12px 6px 6px;
+  font-size: 11px;
+}
+.picker-rail-section:first-child {
+  padding-top: 6px;
+}
+.picker-boss {
+  text-align: left;
+  cursor: pointer;
+  background: 0 0;
+  border: 1px solid #0000;
+  border-radius: 2px;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  margin-bottom: 3px;
+  padding: 9px;
+  font-family: inherit;
+  transition: background .15s, border-color .15s;
+  display: flex;
+}
+.picker-boss:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+}
+.picker-boss.active,
+.picker-boss.active:hover {
+  background: var(--color-surface-inset);
+  border-color: var(--color-primary);
+}
+.picker-boss.soon {
+  cursor: default;
+}
+.picker-boss.soon:hover {
+  background: 0 0;
+  border-color: #0000;
+}
+.picker-boss-pic {
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  flex: 0 0 38px;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  overflow: hidden;
+}
+.picker-boss-pic img {
+  width: 100%;
+  height: 100%;
+}
+.picker-boss-pic--contain img {
+  object-fit: contain;
+  width: 30px;
+  height: 30px;
+}
+.picker-boss-pic--cover img {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.9);
+}
+.picker-boss-pic--empty {
+  color: var(--color-text-muted);
+  font-size: 16px;
+}
+.picker-boss-meta {
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
+}
+.picker-boss-heading {
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  display: flex;
+}
+.picker-boss-name {
+  color: var(--color-secondary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  overflow: hidden;
+}
+.picker-boss.active .picker-boss-name {
+  color: var(--color-primary);
+}
+.picker-boss-sub {
+  color: var(--picker-boss-sub);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 12px;
+  overflow: hidden;
+}
+.picker-boss .status-badge {
+  color: var(--color-warning);
+}
+.picker-boss.soon .picker-boss-name {
+  color: color-mix(in srgb, var(--color-secondary) 62%, var(--color-surface));
+}
+.picker-boss.soon .picker-boss-sub {
+  color: color-mix(in srgb, var(--picker-boss-sub) 62%, var(--color-surface));
+}
+.picker-boss.soon .picker-boss-pic {
+  opacity: .62;
+}
+.picker-rail-foot {
+  border-top: 1px solid var(--color-border);
+  padding: 8px;
+}
+.picker-lobby-link {
+  width: 100%;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  border-radius: 2px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 12px;
+  transition: background .15s, color .15s;
+  display: flex;
+}
+.picker-lobby-link:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-body);
+}
+.picker-detail {
+  background:
+    radial-gradient(
+      440px 320px at 95% 0%,
+      #3a251580 0%,
+      transparent 60%),
+    var(--color-bg-solid);
+  flex-direction: column;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+.picker-close {
+  width: 26px;
+  height: 26px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  z-index: 5;
+  text-shadow: 0 1px 3px #000000d9;
+  background: 0 0;
+  border: none;
+  border-radius: 2px;
+  place-items: center;
+  font-size: 19px;
+  line-height: 1;
+  transition: background .15s, color .15s;
+  display: grid;
+  position: absolute;
+  top: 10px;
+  right: 11px;
+}
+.picker-close:hover {
+  color: var(--color-text-body);
+  background: var(--color-surface-hover);
+}
+.picker-hero {
+  border-bottom: 1px solid var(--color-border);
+  min-height: 164px;
+  padding: 22px 22px 16px;
+}
+.picker-hero-art {
+  pointer-events: none;
+  z-index: 0;
+  opacity: .96;
+  width: 178px;
+  height: 178px;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  -webkit-mask-image:
+    radial-gradient(
+      circle at 52% 47%,
+      #000 60%,
+      #0000 80%);
+  mask-image:
+    radial-gradient(
+      circle at 52% 47%,
+      #000 60%,
+      #0000 80%);
+}
+.picker-hero-art img {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px #0000008c);
+  width: 100%;
+  height: 100%;
+}
+.picker-hero-art--full {
+  width: 158px;
+  height: 166px;
+  top: 12px;
+  right: 16px;
+  -webkit-mask-image: linear-gradient(#000 86%, #0000 100%);
+  mask-image: linear-gradient(#000 86%, #0000 100%);
+}
+.picker-hero-art--full img {
+  object-position: right bottom;
+}
+.picker-hero-text {
+  z-index: 1;
+  max-width: 58%;
+  position: relative;
+}
+.picker-hero-title {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+.picker-hero-title .status-badge {
+  color: var(--color-warning);
+  background: color-mix(in srgb, var(--color-warning) 12%, var(--color-bg-solid));
+  border-color: color-mix(in srgb, var(--color-warning) 40%, var(--color-bg-solid));
+}
+.picker-hero-text h1 {
+  color: var(--color-secondary);
+  text-shadow: 1px 1px #000;
+  margin: 0;
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 29px;
+}
+.picker-hero-tag {
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--color-warning);
+  margin-top: 7px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  display: block;
+}
+.picker-hero-text p {
+  color: var(--color-text-body);
+  margin: 11px 0 0;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.picker-hero-actions {
+  gap: 8px;
+  margin-top: 13px;
+  display: flex;
+}
+.picker-contracts {
+  flex: 1;
+  padding: 8px 14px 12px;
+  overflow-y: auto;
+}
+.picker-cg-label {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 15px 6px 7px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+}
+.picker-contract {
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 2px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 11px;
+  transition: background .15s, border-color .15s;
+  display: flex;
+}
+.picker-contract:hover,
+.picker-contract.selected {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+}
+.picker-contract.soon {
+  cursor: default;
+}
+.picker-contract.soon:hover {
+  background: 0 0;
+  border-color: #0000;
+}
+.picker-contract-icon {
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  width: 30px;
+  height: 30px;
+  color: var(--color-text-muted);
+  border-radius: 2px;
+  flex: 0 0 30px;
+  place-items: center;
+  display: grid;
+  overflow: hidden;
+}
+.picker-contract-icon img {
+  object-fit: contain;
+  width: 23px;
+  height: 23px;
+}
+.picker-contract-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.picker-contract-body {
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.picker-contract-heading {
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  display: flex;
+}
+.picker-contract-heading .picker-contract-name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.picker-contract-name {
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+.picker-contract-effect {
+  color: var(--color-text-body);
+  margin-top: 3px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.picker-contract.soon .picker-contract-name {
+  color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-bg-solid));
+}
+.picker-contract.soon .picker-contract-effect {
+  color: color-mix(in srgb, var(--color-text-body) 55%, var(--color-bg-solid));
+}
+.picker-contract.soon .picker-contract-icon {
+  opacity: .55;
+}
+.picker-contract-actions {
+  flex: none;
+  gap: 7px;
+  display: flex;
+}
+.picker-btn {
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  text-shadow: 1px 1px #000;
+  border-radius: 2px;
+  padding: 6px 12px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  transition:
+    background .15s,
+    border-color .15s,
+    color .15s;
+}
+.picker-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+  color: var(--color-primary);
+}
+.picker-btn--primary {
+  border-color: var(--color-secondary);
+}
+.picker-btn--primary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.picker-btn--ghost {
+  background: 0 0;
+}
+.picker-btn--ghost:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+.picker-btn--train {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 62%, transparent);
+  color: var(--color-primary);
+}
+.picker-btn--train:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-bg-solid);
+  text-shadow: none;
+}
+.picker-badge {
+  color: var(--color-text-dim);
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  flex: none;
+  padding: 3px 7px 3px 8px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  line-height: 1;
+}
+.picker-contract.soon .picker-badge {
+  color: color-mix(in srgb, var(--color-text-dim) 55%, var(--color-bg-solid));
+  border-color: color-mix(in srgb, var(--color-border) 55%, var(--color-bg-solid));
+}
+.picker-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 28px 18px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 13px;
+}
+@media (width <= 720px) {
+  .picker-overlay {
+    padding: calc(8px + var(--safe-top,0px)) 8px calc(8px + var(--safe-bottom,0px));
+    align-items: stretch;
+  }
+  .picker {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+  .picker-rail {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .picker-rail-scroll {
+    max-height: 30dvh;
+  }
+  .picker-hero-art {
+    width: 150px;
+    height: 150px;
+  }
+  .picker-hero-text {
+    max-width: 64%;
+  }
+  .picker-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+}
+@keyframes picker-card-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,586 @@
+/* scim.gg floating widget styles (dp-move-affordance, boss-hp, detailed-dps, prayer-flick, xp-drop). */
+.dp-alt-move,
+.dp-alt-move *,
+.dp-alt-move .panel-surface * {
+  cursor: grab !important;
+}
+.dp-move-affordance {
+  z-index: 1;
+  pointer-events: none;
+  color: #0000;
+  visibility: hidden;
+  background: 0 0;
+  border: 1px dashed #0000;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  transition:
+    border-color .14s cubic-bezier(.4, 0, 1, 1),
+    background-color .14s cubic-bezier(.4, 0, 1, 1),
+    color .14s cubic-bezier(.4, 0, 1, 1),
+    visibility 0s linear .14s;
+  display: flex;
+  position: absolute;
+  inset: -1px;
+}
+.dp-move-affordance[data-visible] {
+  border-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  background: color-mix(in srgb, var(--color-bg-solid) 20%, transparent);
+  color: var(--color-secondary);
+  visibility: visible;
+  transition:
+    border-color .18s cubic-bezier(.22, 1, .36, 1),
+    background-color .18s cubic-bezier(.22, 1, .36, 1),
+    color .18s cubic-bezier(.22, 1, .36, 1),
+    visibility;
+}
+html:not([data-panel-dragging]) .dp-alt-move:hover .dp-move-affordance[data-visible] {
+  border-color: color-mix(in srgb, var(--color-text-body) 55%, transparent);
+  background: color-mix(in srgb, var(--color-bg-solid) 35%, transparent);
+  color: var(--color-text-body);
+}
+.dp-move-affordance--active {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 60%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+.dp-move-affordance__corner {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+}
+.dp-move-affordance__corner:before,
+.dp-move-affordance__corner:after {
+  content: "";
+  background: currentColor;
+  position: absolute;
+}
+.dp-move-affordance__corner:before {
+  width: 12px;
+  height: 2px;
+}
+.dp-move-affordance__corner:after {
+  width: 2px;
+  height: 12px;
+}
+.dp-move-affordance__corner--tl {
+  top: 2px;
+  left: 2px;
+}
+.dp-move-affordance__corner--tl:before,
+.dp-move-affordance__corner--tl:after {
+  top: 0;
+  left: 0;
+}
+.dp-move-affordance__corner--tr {
+  top: 2px;
+  right: 2px;
+}
+.dp-move-affordance__corner--tr:before,
+.dp-move-affordance__corner--tr:after {
+  top: 0;
+  right: 0;
+}
+.dp-move-affordance__corner--bl {
+  bottom: 2px;
+  left: 2px;
+}
+.dp-move-affordance__corner--bl:before,
+.dp-move-affordance__corner--bl:after {
+  bottom: 0;
+  left: 0;
+}
+.dp-move-affordance__corner--br {
+  bottom: 2px;
+  right: 2px;
+}
+.dp-move-affordance__corner--br:before,
+.dp-move-affordance__corner--br:after {
+  bottom: 0;
+  right: 0;
+}
+.dp-move-affordance__label {
+  color: #0000;
+  white-space: nowrap;
+  background: 0 0;
+  border: 1px solid #0000;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  transition:
+    border-color .14s cubic-bezier(.4, 0, 1, 1),
+    background-color .14s cubic-bezier(.4, 0, 1, 1),
+    color .14s cubic-bezier(.4, 0, 1, 1);
+}
+.dp-move-affordance[data-visible] .dp-move-affordance__label {
+  border-color: var(--color-border-translucent);
+  background: var(--color-surface-translucent);
+  color: var(--color-text-body);
+  transition:
+    border-color .18s cubic-bezier(.22, 1, .36, 1),
+    background-color .18s cubic-bezier(.22, 1, .36, 1),
+    color .18s cubic-bezier(.22, 1, .36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp-move-affordance,
+  .dp-move-affordance__label {
+    transition:
+      border-color 60ms linear,
+      background-color 60ms linear,
+      color 60ms linear,
+      visibility 0s linear 60ms;
+  }
+  .dp-move-affordance[data-visible] {
+    transition:
+      border-color 60ms linear,
+      background-color 60ms linear,
+      color 60ms linear,
+      visibility;
+  }
+}
+.boss-hp {
+  --boss-hp-label:color-mix(in srgb, var(--color-secondary) 85%, var(--color-text-muted));
+  --boss-hp-dim:color-mix(in srgb, var(--color-text-muted) 70%, var(--color-secondary));
+  box-sizing: border-box;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 6px 8px;
+  display: flex;
+}
+.boss-hp__info {
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  display: flex;
+}
+.boss-hp__name {
+  min-width: 0;
+  color: var(--color-secondary);
+  text-shadow: 1px 1px #000;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 0 auto;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  line-height: 14px;
+  overflow: hidden;
+}
+.boss-hp__readout {
+  font-variant-numeric: tabular-nums;
+  text-shadow: 1px 1px #000;
+  flex-shrink: 0;
+  align-items: baseline;
+  gap: 6px;
+  margin-left: auto;
+  font-family: RuneScape Small, sans-serif;
+  font-size: 16px;
+  line-height: 12px;
+  display: flex;
+}
+.boss-hp__values {
+  color: var(--color-text-body);
+}
+.boss-hp__sep {
+  color: var(--boss-hp-dim);
+  margin: 0 3px;
+}
+.boss-hp__pct {
+  color: var(--boss-hp-label);
+}
+.boss-hp .status-badge--compact {
+  color: var(--boss-hp-label);
+  text-shadow: 1px 1px #000;
+  font-family: RuneScape Small, sans-serif;
+  font-size: 16px;
+  line-height: 12px;
+}
+.boss-hp__track {
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--color-error) 20%, var(--color-surface-inset));
+  border: 1px solid #ffffff0a;
+  border-radius: 2px;
+  width: 100%;
+  height: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.boss-hp__fill {
+  background-color: var(--color-success);
+  background-image: linear-gradient(#ffffff14 0%, #0000000d 100%);
+  border-radius: 1px;
+  height: 100%;
+  transition: width .3s cubic-bezier(.25, 1, .5, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .boss-hp__fill {
+    transition: none;
+  }
+}
+.detailed-dps {
+  --detailed-dps-label:color-mix(in srgb, var(--color-secondary) 85%, var(--color-text-muted));
+  --detailed-dps-dim:color-mix(in srgb, var(--color-text-muted) 70%, var(--color-secondary));
+  box-sizing: border-box;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  width: 100%;
+  height: auto;
+  color: var(--color-text-body);
+  text-shadow: 1px 1px #000;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  font-family: "RuneScape Plain 12", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  display: flex;
+}
+.detailed-dps__caption {
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  height: 16px;
+  display: flex;
+}
+.detailed-dps__title {
+  color: var(--color-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.detailed-dps__target,
+.detailed-dps__unit,
+.detailed-dps__rows dt,
+.detailed-dps__empty,
+.detailed-dps__breakdown h3,
+.detailed-dps__hit--head > span {
+  color: var(--detailed-dps-label);
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.detailed-dps__target {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+}
+.detailed-dps__hero {
+  gap: 2px;
+  min-width: 0;
+  display: grid;
+}
+.detailed-dps__headline {
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  display: flex;
+}
+.detailed-dps__value {
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 32px;
+}
+.detailed-dps__formula {
+  color: var(--detailed-dps-label);
+  white-space: nowrap;
+  margin: 0;
+  font-family: RuneScape Small, sans-serif;
+  font-size: 16px;
+  line-height: 14px;
+}
+.detailed-dps__empty {
+  margin: 0;
+}
+.detailed-dps__rows,
+.detailed-dps__breakdown {
+  border-top: 1px solid var(--hud-border);
+  gap: 3px;
+  margin: 0;
+  padding-top: 8px;
+  display: grid;
+}
+.detailed-dps__rows > div {
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+  display: flex;
+}
+.detailed-dps__rows dd,
+.detailed-dps__hit > span {
+  color: var(--color-text-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+  margin: 0;
+  font-size: 16px;
+  line-height: 16px;
+}
+.detailed-dps__sep {
+  color: var(--detailed-dps-dim);
+  margin: 0 1px;
+}
+.detailed-dps__breakdown h3 {
+  margin: 0;
+}
+.detailed-dps__hit {
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  display: grid;
+}
+.detailed-dps__hit--head > span {
+  text-align: right;
+}
+.detailed-dps__hit > span:first-child {
+  text-align: left;
+  color: var(--detailed-dps-label);
+}
+.prayer-flick {
+  box-sizing: border-box;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  -webkit-backdrop-filter: blur(8px);
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 4px 8px 6px;
+  display: flex;
+}
+.prayer-flick__caption {
+  align-items: baseline;
+  min-width: 0;
+  height: 16px;
+  display: flex;
+}
+.prayer-flick__title {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  overflow: hidden;
+}
+.prayer-flick__bars {
+  flex-direction: column;
+  gap: 4px;
+  display: flex;
+}
+.prayer-flick__bar {
+  --prayer-flick-fade:max(.3, 1 - var(--prayer-flick-age,0) * .35);
+  --prayer-flick-line-fade:max(.6, 1 - var(--prayer-flick-age,0) * .13);
+  background-color: color-mix(in srgb, var(--color-surface-inset) calc(var(--prayer-flick-fade) * 100%), transparent);
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent 0 16px,
+      color-mix(in srgb, var(--color-primary-structure) calc(var(--prayer-flick-line-fade) * 100%), transparent) 16px 18px,
+      transparent 18px);
+  flex: 0 0 34px;
+  height: 34px;
+  position: relative;
+  overflow: hidden;
+}
+.prayer-flick__bar:before {
+  content: "";
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--color-border) 0 1px,
+      transparent 1px 25%);
+  box-shadow: inset 0 0 0 1px var(--color-border-translucent);
+  opacity: var(--prayer-flick-fade);
+  position: absolute;
+  inset: 0;
+}
+.prayer-flick__bar.is-current:before {
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+.prayer-flick__elapsed {
+  background: var(--color-surface-highlight);
+  transform-origin: 0;
+  pointer-events: none;
+  animation-name: prayer-flick-sweep;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .prayer-flick__elapsed {
+    animation: none;
+  }
+}
+.prayer-flick__event {
+  box-sizing: border-box;
+  pointer-events: none;
+  border-left: 2px solid;
+  min-width: 6px;
+  height: 12px;
+  margin-left: -1px;
+  position: absolute;
+}
+.prayer-flick__event--on {
+  color: var(--color-warning);
+  top: 4px;
+}
+.prayer-flick__event--off {
+  color: var(--color-info);
+  bottom: 4px;
+}
+.prayer-flick__event:after {
+  content: "";
+  background: currentColor;
+  width: 4px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -2px;
+}
+.prayer-flick__event:before {
+  content: "";
+  opacity: .55;
+  background: currentColor;
+  height: 4px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.prayer-flick__event--on:before {
+  bottom: 0;
+}
+.prayer-flick__event--off:before {
+  top: 0;
+}
+.prayer-flick__event.is-instant {
+  border-left: 0;
+  min-width: 0;
+  margin-left: 0;
+}
+.prayer-flick__event.is-instant:before {
+  content: none;
+}
+.prayer-flick__event.is-carried:before {
+  opacity: .26;
+  height: 100%;
+  top: 0;
+}
+.prayer-flick__event.is-outbound:before {
+  right: -3px;
+}
+.prayer-flick__event.is-outbound:after {
+  content: none;
+}
+.prayer-flick__event.is-inbound {
+  border-left: 0;
+  margin-left: 0;
+}
+.prayer-flick__event.is-inbound:before {
+  left: -3px;
+}
+.prayer-flick__event.is-example {
+  opacity: .65;
+}
+.prayer-flick__legend {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  height: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  margin-left: 8px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  line-height: 12px;
+  position: absolute;
+}
+.prayer-flick__legend--on {
+  top: 4px;
+}
+.prayer-flick__legend--off {
+  bottom: 4px;
+}
+.prayer-flick__legend--axis {
+  margin-left: 0;
+  top: 4px;
+  left: 4px;
+}
+.xp-drop-panel {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.xp-drop-overlay {
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  overflow: visible;
+}
+.xp-drop {
+  white-space: nowrap;
+  will-change: transform, opacity;
+  align-items: center;
+  gap: 2px;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.xp-drop__icon {
+  image-rendering: pixelated;
+  display: block;
+}
+.xp-drop__text {
+  color: #fff;
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+@keyframes prayer-flick-sweep {
+  0% {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

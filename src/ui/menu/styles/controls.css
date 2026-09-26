@@ -1,0 +1,1246 @@
+/* scim.gg styles for the MENUS module, taken from scim.gg's stylesheet. */
+.kbd {
+  color: var(--color-text-body);
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary-structure);
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 2px;
+  margin: 0 2px;
+  padding: 1px 5px;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+  box-shadow: inset 0 1px #ffffff0d;
+}
+.death-modal-replay.osrs-btn--ghost,
+.death-modal-lobby.osrs-btn--ghost {
+  border-color: color-mix(in srgb, var(--color-border) 84%, var(--color-secondary));
+  color: var(--color-secondary);
+}
+.death-modal-replay.osrs-btn--ghost:hover:not(:disabled),
+.death-modal-lobby.osrs-btn--ghost:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-primary-structure));
+  background-color: color-mix(in srgb, var(--color-surface-hover) 72%, transparent);
+  color: var(--color-text-body);
+}
+.death-modal-lobby.osrs-btn--ghost {
+  background-color: var(--color-surface);
+  padding: 6px 12px;
+}
+.death-modal-lobby.osrs-btn--ghost:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+}
+.osrs-btn {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  text-shadow: 1px 1px #000;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  font-family: "RuneScape Bold 12", sans-serif;
+  line-height: 1.2;
+  transition: all .15s;
+  display: inline-flex;
+}
+.osrs-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.osrs-btn[aria-disabled=true] {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  background-color: #0000;
+}
+.osrs-btn:hover:not(:disabled):not([aria-disabled=true]) {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+  color: var(--color-primary);
+}
+.osrs-btn:active:not(:disabled):not([aria-disabled=true]) {
+  background-color: var(--color-surface-inset);
+}
+.osrs-btn--full-width {
+  width: 100%;
+}
+.osrs-btn--default {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.osrs-btn--primary {
+  background-color: var(--primary-dim,#d4a54a0f);
+  border-color: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 8px 16px;
+  font-size: 14px;
+  box-shadow: inset 0 1px #ffdc8c0a;
+}
+.osrs-btn--primary:hover:not(:disabled):not([aria-disabled=true]) {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+  box-shadow: inset 0 1px #ffdc8c0f;
+}
+.osrs-btn--primary:active:not(:disabled):not([aria-disabled=true]) {
+  background-color: var(--color-surface-inset);
+  box-shadow: inset 0 2px 3px #0006;
+}
+.osrs-btn--small {
+  padding: 2px 6px;
+  font-size: 11px;
+}
+.osrs-btn--danger {
+  color: var(--color-error);
+  border-color: color-mix(in srgb, var(--color-error) 35%, var(--color-border));
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.osrs-btn--danger:hover:not(:disabled):not([aria-disabled=true]) {
+  color: var(--color-error);
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-error);
+}
+.osrs-btn--ghost {
+  color: var(--color-text-muted);
+  background: 0 0;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.osrs-btn--ghost:hover:not(:disabled):not([aria-disabled=true]) {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-body);
+  border-color: var(--color-border);
+}
+.hover-card {
+  --hover-card-stroke:var(--color-border);
+  z-index: 99999;
+  background: var(--color-surface);
+  border: 1px solid var(--hover-card-stroke);
+  max-width: 124px;
+  color: var(--color-text-body);
+  text-wrap: balance;
+  pointer-events: none;
+  border-radius: 2px;
+  padding: 8px;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  transition: opacity .16s cubic-bezier(.2, .8, .2, 1), transform .16s cubic-bezier(.2, .8, .2, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.hover-card:before {
+  content: "";
+  z-index: -1;
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+  border-radius: 2px;
+  position: absolute;
+  inset: -1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hover-card {
+    transition: none;
+  }
+}
+.hover-card--outcome {
+  max-width: 208px;
+}
+.hover-card--outcome-failed {
+  --hover-card-stroke:color-mix(in srgb, var(--color-error) 55%, var(--color-border));
+}
+.hover-card-caret {
+  width: 6px;
+  height: 12px;
+  position: absolute;
+}
+.hover-card-caret:before,
+.hover-card-caret:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.hover-card-caret[data-side=right],
+.hover-card-caret[data-side=left] {
+  width: 6px;
+  height: 12px;
+}
+.hover-card-caret[data-side=right]:before,
+.hover-card-caret[data-side=right]:after,
+.hover-card-caret[data-side=left]:before,
+.hover-card-caret[data-side=left]:after {
+  border-top: 6px solid #0000;
+  border-bottom: 6px solid #0000;
+  top: 0;
+}
+.hover-card-caret[data-side=right] {
+  left: -6px;
+}
+.hover-card-caret[data-side=right]:before {
+  border-right: 6px solid var(--hover-card-stroke);
+  left: 0;
+}
+.hover-card-caret[data-side=right]:after {
+  border-right: 6px solid var(--color-surface);
+  left: 1px;
+}
+.hover-card-caret[data-side=left] {
+  right: -6px;
+}
+.hover-card-caret[data-side=left]:before {
+  border-left: 6px solid var(--hover-card-stroke);
+  right: 0;
+}
+.hover-card-caret[data-side=left]:after {
+  border-left: 6px solid var(--color-surface);
+  right: 1px;
+}
+.hover-card-caret[data-side=bottom],
+.hover-card-caret[data-side=top] {
+  width: 12px;
+  height: 6px;
+}
+.hover-card-caret[data-side=bottom]:before,
+.hover-card-caret[data-side=bottom]:after,
+.hover-card-caret[data-side=top]:before,
+.hover-card-caret[data-side=top]:after {
+  border-left: 6px solid #0000;
+  border-right: 6px solid #0000;
+  left: 0;
+}
+.hover-card-caret[data-side=bottom] {
+  top: -6px;
+}
+.hover-card-caret[data-side=bottom]:before {
+  border-bottom: 6px solid var(--hover-card-stroke);
+  top: 0;
+}
+.hover-card-caret[data-side=bottom]:after {
+  border-bottom: 6px solid var(--color-surface);
+  top: 1px;
+}
+.hover-card-caret[data-side=top] {
+  bottom: -6px;
+}
+.hover-card-caret[data-side=top]:before {
+  border-top: 6px solid var(--hover-card-stroke);
+  bottom: 0;
+}
+.hover-card-caret[data-side=top]:after {
+  border-top: 6px solid var(--color-surface);
+  bottom: 1px;
+}
+.loadout-bar-identity .section-label {
+  flex-shrink: 0;
+}
+.combat-stats__import .osrs-btn {
+  text-shadow: none;
+  white-space: nowrap;
+  border-radius: 0 2px 2px 0;
+  margin-left: -1px;
+  font-size: 16px;
+  line-height: 20px;
+}
+.num-input.combat-stats__input {
+  background: 0 0;
+  border-color: #0000;
+  flex: 1;
+  min-width: 0;
+}
+.combat-stats__tile .num-input.combat-stats__input:hover:not(.num-input--disabled),
+.num-input.combat-stats__input:focus-within {
+  box-shadow: none;
+  border-color: #0000;
+}
+.combat-stats__input .num-input__arrows {
+  display: none;
+}
+.combat-stats__input .num-input__field {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  padding: 2px 0;
+  font-size: 16px;
+  line-height: 20px;
+}
+@media (width <= 720px), (pointer: coarse) {
+  .num-input.combat-stats__input {
+    min-height: 0;
+  }
+  .combat-stats__input .num-input__field {
+    min-height: 0;
+    padding-block: 2px;
+    font-size: 16px;
+  }
+}
+@media (pointer: coarse) {
+  .combat-stats__import .osrs-btn {
+    min-height: 44px;
+  }
+}
+.num-input {
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  align-items: stretch;
+  transition: border-color .15s;
+  display: inline-flex;
+  overflow: hidden;
+}
+.num-input:hover:not(.num-input--disabled) {
+  border-color: var(--color-primary-structure);
+}
+.num-input:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+.num-input--disabled {
+  opacity: .5;
+}
+.num-input__field {
+  width: 30px;
+  color: var(--color-secondary);
+  text-align: right;
+  -moz-appearance: textfield;
+  background: 0 0;
+  border: none;
+  outline: none;
+  padding: 3px 4px;
+  font-family: "RuneScape Bold 12", sans-serif;
+}
+.num-input__field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.num-input__field::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.num-input__suffix {
+  color: var(--color-text-muted);
+  -webkit-user-select: none;
+  user-select: none;
+  flex-shrink: 0;
+  align-items: center;
+  padding-right: 6px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 13px;
+  display: flex;
+}
+.num-input__arrows {
+  border-left: 1px solid var(--color-border);
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 14px;
+  display: flex;
+}
+.num-input__btn {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  background: 0 0;
+  border: none;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  transition: color .15s, background-color .15s;
+  display: flex;
+}
+.num-input__btn:hover:not(:disabled) {
+  color: var(--color-secondary);
+  background: var(--color-surface-hover);
+}
+.num-input__btn:active:not(:disabled) {
+  color: var(--color-text-body);
+  background: var(--color-surface-inset);
+}
+.num-input__btn:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-dim);
+}
+.num-input__btn + .num-input__btn {
+  border-top: 1px solid var(--color-border);
+}
+@media (width <= 720px), (pointer: coarse) {
+  .num-input {
+    min-height: 44px;
+  }
+  .num-input__field {
+    text-align: center;
+    min-height: 42px;
+    padding-block: 8px;
+  }
+  .num-input__arrows {
+    display: none;
+  }
+}
+.rune-pouch-bar > .section-label {
+  white-space: nowrap;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(100% + 12px);
+}
+@media (width <= 599px) {
+  .rune-pouch-bar > .section-label {
+    white-space: normal;
+    justify-self: start;
+    position: static;
+  }
+}
+@media (width <= 359px) {
+  .rune-pouch-bar > .section-label {
+    width: 36px;
+    position: absolute;
+  }
+}
+.rune-pouch-caption .section-label {
+  color: var(--color-text-muted);
+  flex: none;
+  font-size: 12px;
+  line-height: 16px;
+}
+.hover-card.slot-picker-support-card {
+  z-index: 100101;
+  max-width: 220px;
+  line-height: 18px;
+}
+.slot-picker__footer .osrs-checkbox__label {
+  background: var(--color-surface);
+  text-shadow: none;
+  font-size: 13px;
+}
+.info-hint-region:not(button) {
+  cursor: help;
+}
+.info-hint {
+  width: 4px;
+  height: 6px;
+  color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-text-muted));
+  cursor: inherit;
+  background: 0 0;
+  border: none;
+  margin-bottom: 6px;
+  padding: 0;
+  transition: color .15s;
+  display: inline-flex;
+}
+.info-hint-region:hover .info-hint,
+.info-hint:hover,
+.info-hint.is-open {
+  color: var(--color-secondary);
+}
+.info-hint:focus-visible {
+  outline: 2px solid var(--color-primary-structure);
+  outline-offset: 3px;
+}
+.osrs-checkbox {
+  cursor: pointer;
+  text-align: left;
+  background: 0 0;
+  border: none;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  transition: opacity .15s;
+  display: inline-flex;
+}
+.osrs-checkbox:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.osrs-checkbox__box {
+  background-color: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  transition: all .15s;
+  display: flex;
+  position: relative;
+}
+.osrs-checkbox:hover:not(:disabled) .osrs-checkbox__box {
+  border-color: var(--color-primary-structure);
+  background-color: var(--color-surface-highlight);
+}
+.osrs-checkbox[aria-checked=true] .osrs-checkbox__box,
+.osrs-checkbox[aria-checked=true]:hover:not(:disabled) .osrs-checkbox__box {
+  border-color: var(--color-primary);
+}
+.osrs-checkbox__mark {
+  border: solid var(--color-primary);
+  border-width: 0 2px 2px 0;
+  width: 4px;
+  height: 9px;
+  margin-top: -2px;
+  display: block;
+  transform: rotate(45deg);
+}
+.osrs-checkbox__label {
+  color: var(--color-secondary);
+  text-shadow: 1px 1px #000;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  transition: color .15s;
+}
+.osrs-checkbox:hover:not(:disabled) .osrs-checkbox__label {
+  color: var(--color-text-body);
+}
+.reset-button {
+  appearance: none;
+  box-sizing: border-box;
+  width: var(--setting-reset-size);
+  height: var(--setting-reset-size);
+  color: var(--color-secondary);
+  vertical-align: middle;
+  cursor: pointer;
+  background: 0 0;
+  border: 1px solid #0000;
+  border-radius: 0;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  padding: 1px;
+  display: inline-flex;
+}
+.reset-button > canvas {
+  flex-shrink: 0;
+}
+.reset-button:hover:not(:disabled) > canvas {
+  filter: brightness(1.12);
+}
+.reset-button:active:not(:disabled) > canvas {
+  filter: brightness(1.05);
+}
+.reset-button:focus-visible {
+  outline: 1px solid var(--color-primary);
+  outline-offset: 1px;
+}
+.reset-button:disabled {
+  color: var(--color-text-dim);
+  cursor: default;
+}
+.reset-button[aria-hidden=true] {
+  visibility: hidden;
+  pointer-events: none;
+}
+.setting-row {
+  align-items: center;
+  padding-left: 6px;
+  display: flex;
+  position: relative;
+}
+.setting-row > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+.setting-row > .osrs-checkbox,
+.setting-row > .osrs-toggle {
+  flex: none;
+}
+.setting-row:before {
+  content: "";
+  background: var(--color-primary);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 1px;
+  width: 2px;
+  transition: opacity .15s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.setting-row--modified:before {
+  opacity: 1;
+}
+.setting-row--modified:hover {
+  background: var(--color-surface-hover);
+  border-radius: 2px;
+}
+.setting-row__reset,
+.setting-row__reset-inline {
+  margin-left: var(--setting-reset-gap);
+  align-self: center;
+}
+.setting-row-aside {
+  margin-left: 6px;
+  margin-right: calc(var(--setting-reset-size) + var(--setting-reset-gap));
+}
+.mechanics-choice.is-disabled .info-hint {
+  color: color-mix(in srgb, var(--color-text-muted) 58%, var(--color-text-dim));
+}
+.mechanics-actions .osrs-btn {
+  flex: auto;
+}
+.setting-row > .mechanics-toggle-info {
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  display: flex;
+}
+.starthp-input .num-input__field {
+  font-size: 16px;
+}
+@media (width <= 720px), (pointer: coarse) {
+  .starthp-input .num-input__field {
+    text-align: right;
+    min-height: 0;
+    padding-block: 0;
+  }
+}
+.status-badge {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  background: #ffffff08;
+  border: 1px solid #ffffff0d;
+  border-radius: 2px;
+  flex: none;
+  padding: 3px 5px 3px 6px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  line-height: 1;
+}
+.status-badge--compact {
+  letter-spacing: 1.5px;
+  background: 0 0;
+  border: none;
+  padding: 0;
+}
+.wiki-link {
+  color: var(--color-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: baseline;
+  align-items: baseline;
+  gap: 7px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color .15s;
+  display: inline-flex;
+}
+.wiki-link-mark {
+  flex-shrink: 0;
+  width: 18px;
+  height: auto;
+  transform: translateY(1px);
+}
+.wiki-link-label {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  -webkit-text-decoration-color: var(--color-primary-structure);
+  text-decoration-color: var(--color-primary-structure);
+  text-underline-offset: 3px;
+  transition: text-decoration-color .15s;
+}
+.wiki-link:hover,
+.wiki-link:focus-visible {
+  color: var(--color-primary);
+  outline: none;
+}
+.wiki-link:hover .wiki-link-label,
+.wiki-link:focus-visible .wiki-link-label {
+  -webkit-text-decoration-color: var(--color-primary);
+  text-decoration-color: var(--color-primary);
+}
+.section-label {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+}
+.section-label--primary {
+  color: var(--color-secondary);
+}
+.loadout-supplies .section-label {
+  line-height: 16px;
+}
+.encounter-panel-rail .section-label {
+  margin: 0;
+}
+.encounter-panel-rail .osrs-checkbox__label {
+  font-size: 16px;
+  line-height: 20px;
+}
+.encounter-fight-controls > .section-label,
+.encounter-practice-aids > .section-label {
+  margin: 0 0 8px;
+  padding: 0;
+}
+@media (width <= 839px) {
+  .encounter-panel-footer .osrs-btn {
+    width: 100%;
+  }
+  .encounter-panel-footer .osrs-btn:last-child {
+    min-width: 100%;
+  }
+}
+.picker-boss .status-badge {
+  color: var(--color-warning);
+}
+.picker-hero-title .status-badge {
+  color: var(--color-warning);
+  background: color-mix(in srgb, var(--color-warning) 12%, var(--color-bg-solid));
+  border-color: color-mix(in srgb, var(--color-warning) 40%, var(--color-bg-solid));
+}
+.boss-hp .status-badge--compact {
+  color: var(--boss-hp-label);
+  text-shadow: 1px 1px #000;
+  font-family: RuneScape Small, sans-serif;
+  font-size: 16px;
+  line-height: 12px;
+}
+.practice-panel--wide .mechanics-group:has(.setting-row--dependent) .mechanics-toggles {
+  grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
+  grid-auto-flow: dense;
+  gap: 2px 8px;
+  display: grid;
+}
+.practice-panel--wide .mechanics-toggle-family:has(.setting-row--dependent) {
+  grid-column: 1/-1;
+}
+.practice-panel .setting-row--dependent .mechanics-choice-label {
+  margin-left: -8px;
+}
+.practice-panel .mechanics-toggle-family > .setting-row:not(.setting-row--dependent) + .setting-row--dependent {
+  border-top: 1px solid var(--hud-border);
+  margin-top: 3px;
+  padding-top: 3px;
+}
+.practice-panel .setting-row--dependent + .setting-row--dependent {
+  margin-top: 3px;
+}
+.practice-panel .setting-row {
+  min-height: 16px;
+  padding-left: 0;
+}
+.practice-panel .setting-row--dependent {
+  padding-left: 8px;
+}
+.practice-panel .mechanics-actions .osrs-btn {
+  white-space: normal;
+  flex: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.practice-panel .osrs-checkbox {
+  flex-shrink: 1;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.practice-panel .osrs-checkbox__box {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+}
+.practice-panel .osrs-checkbox__label {
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+}
+.practice-panel .mechanics-actions .osrs-btn--small {
+  letter-spacing: normal;
+  padding: 3px 4px;
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  line-height: 14px;
+}
+.osrs-toggle {
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 2px 0;
+  transition: opacity .15s;
+  display: inline-flex;
+}
+.osrs-toggle:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.osrs-toggle__track {
+  background-color: var(--color-surface-inset);
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  transition: border-color .15s, background-color .15s;
+  display: block;
+  position: relative;
+}
+.osrs-toggle--default .osrs-toggle__track {
+  width: 28px;
+  height: 14px;
+}
+.osrs-toggle--small .osrs-toggle__track {
+  width: 24px;
+  height: 12px;
+}
+.osrs-toggle__knob {
+  background-color: var(--color-text-muted);
+  border-radius: 50%;
+  transition: transform .2s cubic-bezier(.2, .8, .2, 1), background-color .15s;
+  position: absolute;
+}
+.osrs-toggle--default .osrs-toggle__knob {
+  width: 8px;
+  height: 8px;
+  top: 3px;
+  left: 3px;
+}
+.osrs-toggle--small .osrs-toggle__knob {
+  width: 6px;
+  height: 6px;
+  top: 3px;
+  left: 3px;
+}
+.osrs-toggle[aria-checked=true] .osrs-toggle__track {
+  border-color: var(--color-primary-structure);
+}
+.osrs-toggle[aria-checked=true] .osrs-toggle__knob {
+  background-color: var(--color-secondary);
+}
+.osrs-toggle--default[aria-checked=true] .osrs-toggle__knob {
+  transform: translate(14px);
+}
+.osrs-toggle--small[aria-checked=true] .osrs-toggle__knob {
+  transform: translate(12px);
+}
+.osrs-toggle:hover:not(:disabled) .osrs-toggle__track {
+  border-color: var(--color-primary-structure);
+}
+.osrs-toggle:hover:not(:disabled) .osrs-toggle__knob {
+  background-color: var(--color-secondary);
+}
+.osrs-toggle[aria-checked=true]:hover:not(:disabled) .osrs-toggle__knob {
+  background-color: var(--color-text-body);
+}
+.plugin-row .osrs-checkbox__label {
+  text-shadow: none;
+}
+.ti-group > .setting-row {
+  border-bottom: 1px solid #ffffff0a;
+  padding: 8px 0 8px 10px;
+}
+.ti-group > .setting-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.ti-group > .setting-row:first-child {
+  padding-top: 0;
+}
+.ti-swatch {
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  border-radius: 2px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  transition: border-color .15s;
+  position: relative;
+}
+.ti-swatch:hover {
+  border-color: var(--color-primary-structure);
+}
+.ti-swatch input[type=color] {
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+.plugin-setting-note .kbd {
+  margin: 0;
+}
+@media (width <= 720px) {
+  .app-container:not(.has-fixed-layout) .ti-swatch {
+    width: 22px;
+    height: 22px;
+  }
+}
+.collapsible-section {
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 4px;
+  display: flex;
+}
+.collapsible-header {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: none;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: 0 0;
+  border-radius: 2px;
+  align-items: center;
+  padding: 10px 0;
+  transition: all .2s;
+  display: flex;
+  position: relative;
+}
+.collapsible-header:hover {
+  background: var(--color-surface-hover);
+  border-bottom-color: var(--color-primary-structure);
+}
+.collapsible-header[aria-expanded=true] {
+  border-bottom-color: var(--color-primary-structure);
+  background: 0 0;
+}
+.section-title {
+  color: var(--color-text-muted);
+  text-shadow: 1px 1px #000;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  flex-grow: 1;
+  margin-left: 10px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 15px;
+  transition: color .2s;
+}
+.collapse-indicator {
+  width: 10px;
+  height: 10px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-left: 4px;
+  transition: transform .2s cubic-bezier(.2, .8, .2, 1), color .2s;
+}
+.collapsible-header[aria-expanded=true] .collapse-indicator {
+  color: var(--color-primary);
+  transform: rotate(90deg);
+}
+.collapsible-header:hover .section-title,
+.collapsible-header:hover .collapse-indicator {
+  color: var(--color-secondary);
+}
+.collapsible-header[aria-expanded=true]:hover .collapse-indicator {
+  color: var(--color-primary);
+}
+.collapsible-content-wrapper {
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .25s cubic-bezier(.2, .8, .2, 1);
+  display: grid;
+}
+.collapsible-content-wrapper.expanded {
+  grid-template-rows: 1fr;
+}
+.collapsible-content {
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.collapsible-content > :first-child {
+  margin-top: 12px;
+}
+.collapsible-content > :last-child {
+  margin-bottom: 4px;
+}
+.collapsible-section + .collapsible-section .collapsible-header {
+  margin-top: 4px;
+}
+.controls-container {
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  display: flex;
+}
+.control-group {
+  border-bottom: 1px solid #ffffff0a;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 0 16px;
+  display: flex;
+}
+.control-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.control-group label,
+.group-title {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 11px;
+  display: flex;
+}
+.control-button {
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  text-shadow: 1px 1px #000;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  transition:
+    color .15s,
+    background .15s,
+    border-color .15s,
+    box-shadow .15s;
+  display: flex;
+}
+.control-button:hover:not(:disabled) {
+  color: var(--color-text-body);
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+}
+.control-button:active:not(:disabled) {
+  background: var(--color-surface-inset);
+  border-color: var(--color-border);
+  box-shadow: inset 0 1px 2px #00000040;
+}
+.control-button.focus-ring:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary), 0 0 0 3px #d4a54a33;
+  outline: none;
+}
+.control-button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  color: var(--color-text-dim);
+  background: #0003;
+  border-color: #0000;
+}
+.control-button.active {
+  background: var(--color-surface-inset);
+  color: var(--color-primary);
+  border-color: var(--color-primary-structure);
+}
+.control-button.active:hover {
+  color: var(--color-primary);
+}
+.restart-button {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
+  justify-content: space-between;
+  width: 100%;
+}
+.restart-button:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-structure);
+  color: var(--color-text-body);
+}
+.restart-keybind {
+  color: var(--color-text-muted);
+  font-family: "RuneScape Plain 11", sans-serif;
+  font-size: 16px;
+  transition: color .2s;
+}
+.restart-button:hover:not(:disabled) .restart-keybind {
+  color: var(--color-text-muted);
+}
+.speed-buttons {
+  background: 0 0;
+  border: none;
+  border-radius: 2px;
+  gap: 0;
+  width: 100%;
+  padding: 0;
+  display: flex;
+}
+.speed-buttons .control-button {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-radius: 0;
+  flex: 1;
+  margin-left: -1px;
+  padding: 6px 0;
+}
+.speed-buttons .control-button:first-child {
+  border-radius: 2px 0 0 2px;
+  margin-left: 0;
+}
+.speed-buttons .control-button:last-child {
+  border-radius: 0 2px 2px 0;
+}
+.speed-buttons .control-button:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  color: var(--color-text-body);
+  border-color: var(--color-primary-structure);
+  z-index: 1;
+}
+.speed-buttons .control-button.active {
+  background: var(--color-surface-inset);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  z-index: 2;
+  position: relative;
+}
+.speed-buttons .control-button.active:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.speed-buttons .control-button.active:after {
+  content: "";
+  background: var(--color-primary);
+  height: 2px;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+}
+.select-input {
+  background: var(--color-surface-inset);
+  width: 100%;
+  color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  text-shadow: 1px 1px #000;
+  cursor: pointer;
+  border-radius: 2px;
+  outline: none;
+  padding: 8px 12px;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 14px;
+  transition:
+    color .15s,
+    background .15s,
+    border-color .15s,
+    box-shadow .15s;
+}
+.select-input:hover {
+  border-color: var(--color-primary-structure);
+  background: var(--color-surface);
+  color: var(--color-secondary);
+}
+.select-input:focus {
+  border-color: var(--color-primary);
+  color: var(--color-secondary);
+  box-shadow: 0 0 0 1px #d4a54a40;
+}
+.select-input option {
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  padding: 8px;
+  font-family: "RuneScape Bold 12", sans-serif;
+}
+.slider-control {
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+  display: flex;
+}
+.slider-label {
+  justify-content: space-between;
+  font-family: "RuneScape Bold 12", sans-serif;
+  font-size: 13px;
+  display: flex;
+}
+.slider-label-text {
+  color: var(--color-text-muted);
+}
+.slider-label-value {
+  color: var(--color-secondary);
+}
+.slider-input {
+  appearance: none;
+  background: var(--color-surface-inset);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  outline: none;
+  width: 100%;
+  height: 6px;
+}
+.slider-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.slider-input::-webkit-slider-thumb {
+  appearance: none;
+  background: var(--color-primary-structure);
+  border: 1px solid var(--color-bg-solid);
+  cursor: pointer;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  transition: background .15s, border-color .15s;
+}
+.slider-input::-webkit-slider-thumb:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary-structure);
+}
+.slider-input::-moz-range-thumb {
+  background: var(--color-primary-structure);
+  border: 1px solid var(--color-bg-solid);
+  cursor: pointer;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+}
+.slider-input::-moz-range-thumb:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary-structure);
+}
+.slider-input--modified::-webkit-slider-thumb {
+  background: var(--color-primary);
+}
+.slider-input--modified::-moz-range-thumb {
+  background: var(--color-primary);
+}
+.control-group--no-border {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.victory-modal-lobby.osrs-btn--ghost {
+  border-color: color-mix(in srgb, var(--color-border) 84%, var(--color-secondary));
+  background-color: var(--color-surface);
+  color: var(--color-secondary);
+  padding: 6px 12px;
+}
+.victory-modal-lobby.osrs-btn--ghost:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-primary-structure));
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-body);
+}
+.victory-modal-action.osrs-btn--ghost {
+  border-color: color-mix(in srgb, var(--color-border) 84%, var(--color-secondary));
+  color: var(--color-secondary);
+}
+.victory-modal-action.osrs-btn--ghost:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-primary-structure));
+  background-color: color-mix(in srgb, var(--color-surface-hover) 72%, transparent);
+  color: var(--color-text-body);
+}
