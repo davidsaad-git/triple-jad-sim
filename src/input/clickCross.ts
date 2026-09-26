@@ -25,8 +25,9 @@ function base(): string {
 }
 
 export const CROSS_SOURCES: Record<ClickType, string[]> = {
-  yellow: [`${base()}yellow_click.webp`, `${base()}assets/input/yellow_click.png`],
-  red: [`${base()}red_click.webp`, `${base()}assets/input/red_click.png`],
+  // Cross sprites exported from the game cache (scripts/build-input-assets.ts).
+  yellow: [`${base()}assets/input/yellow_click.png`],
+  red: [`${base()}assets/input/red_click.png`],
 }
 
 const dataUrls = new Map<ClickType, string>()
